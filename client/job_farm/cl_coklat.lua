@@ -33,18 +33,7 @@ end)
 local CurrentCheckPointCoklat = 0
 local LastCheckPointCoklat    = -1
 
-local CheckPointsCoklat = {
-    {
-        Pos = {x = -1670.65, y = 2306.04, z = 58.62},
-    },
-    {
-        Pos = {x = -1592.19, y = 2182.33, z = 76.14},
-    },
-    {
-        Pos = {x = -1628.52, y = 2256.31, z = 77.94},
-    },
-}
-
+local CheckPointsCoklat = Config.CheckPoints.location_coklat
 local onDutyCoklat = 0
 local blipcoklat = nil
 local countcabutcoklat = 0

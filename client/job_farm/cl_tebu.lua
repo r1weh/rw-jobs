@@ -33,23 +33,7 @@ end)
 local CurrentCheckPointTebu = 0
 local LastCheckPointTebu   = -1
 
-local CheckPointsTebu = {
-    {
-        Pos = {x = 618.98, y = 6457.67, z = 30.07},
-    },
-    {
-        Pos = {x = 722.73, y = 6457.19, z = 30.71},
-    },
-    {
-        Pos = {x = 683.48, y = 6465.52, z = 30.22},
-    },
-    {
-        Pos = {x = 715.03, y = 6475.95, z = 28.54},
-    },
-    {
-        Pos = {x = 686.55, y = 6485.27, z = 28.98},
-    },
-}
+local CheckPointsTebu = Config.CheckPoints.location_tebu
 
 local onDutyTebu = 0
 local bliptebu = nil

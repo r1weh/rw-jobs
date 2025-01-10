@@ -33,23 +33,7 @@ end)
 local CurrentCheckPointPadi = 0
 local LastCheckPointPadi   = -1
 
-local CheckPointsPadi = {
-    {
-        Pos = {x = 615.79, y = 6458.89, z = 29.53},
-    },
-    {
-        Pos = {x = 663.53, y = 6458.77, z = 31.05},
-    },
-    {
-        Pos = {x = 620.14, y = 6468.25, z = 29.49},
-    },
-    {
-        Pos = {x = 663.89, y = 6480.31, z = 29.85},
-    },
-    {
-        Pos = {x = 613.65, y = 6494.16, z = 29.18},
-    },
-}
+local CheckPointsPadi = Config.CheckPoints.location_padi
 
 local onDutyPadi = 0
 local blippadi = nil

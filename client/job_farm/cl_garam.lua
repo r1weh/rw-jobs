@@ -33,23 +33,7 @@ end)
 local CurrentCheckPointGaram = 0
 local LastCheckPointGaram   = -1
 
-local CheckPointsGaram = {
-    {
-        Pos = {x = 457.81, y = 6700.09, z = 7.42},
-    },
-    {
-        Pos = {x = 428.66, y = 6717.38, z = 6.15},
-    },
-    {
-        Pos = {x = 460.85, y = 6707.88, z = 6.43},
-    },
-    {
-        Pos = {x = 442.20, y = 6734.12, z = 4.55},
-    },
-    {
-        Pos = {x = 463.51, y = 6730.31, z = 3.2},
-    },
-}
+local CheckPointsGaram = Config.CheckPoints.location_garam
 
 local onDutyGaram = 0
 local blipgaram = nil

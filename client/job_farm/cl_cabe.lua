@@ -1,55 +1,10 @@
-ESX = nil
 local spawnedCabe = 0
 local cabePlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPoint = 0
 local LastCheckPoint    = -1
 
-local CheckPoints = {
-    {
-        Pos = {x = 281.47, y = 6480.55, z = 29.50},
-    },
-    {
-        Pos = {x = 215.21, y = 6474.93, z = 31.30},
-    },
-    {
-        Pos = {x = 280.63, y = 6472.02, z = 31.30},
-    },
-    {
-        Pos = {x = 236.72, y = 6458.71, z = 31.30},
-    },
-    {
-        Pos = {x = 287.61, y = 6448.83, z = 31.30},
-    },
-}
+local CheckPoints = Config.CheckPoints.location_cabe
 
 local onDutyCabe = 0
 local blipcabe = nil

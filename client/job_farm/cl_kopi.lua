@@ -33,17 +33,7 @@ end)
 local CurrentCheckPointKopi = 0
 local LastCheckPointKopi   = -1
 
-local CheckPointsKopi = {
-    {
-        Pos = {x = -1670.65, y = 2306.04, z = 58.62},
-    },
-    {
-        Pos = {x = -1592.19, y = 2182.33, z = 76.14},
-    },
-    {
-        Pos = {x = -1628.52, y = 2256.31, z = 77.94},
-    },
-}
+local CheckPointsKopi = Config.CheckPoints.location_kopi
 
 local onDutyKopi = 0
 local blipkopi = nil

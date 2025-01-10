@@ -1,49 +1,10 @@
-ESX = nil
 local spawnedTeh = 0
 local tehPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPointTeh = 0
 local LastCheckPointTeh   = -1
 
-local CheckPointsTeh = {
-    {
-        Pos = {x = -1670.65, y = 2306.04, z = 58.62},
-    },
-    {
-        Pos = {x = -1592.19, y = 2182.33, z = 76.14},
-    },
-    {
-        Pos = {x = -1628.52, y = 2256.31, z = 77.94},
-    },
-}
+local CheckPointsTeh = Config.CheckPoints.location_teh
 
 local onDutyTeh = 0
 local blipteh = nil
@@ -70,7 +31,7 @@ Citizen.CreateThread(function()
             if PlayerData.job.name == 'petani' then
                 letSleep = false
                 DrawMarker(39, -1146.27, 2664.13, 18.21, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Teh)')
+                Framework.ShowHelpNotification('E - Mengambil Traktor (Teh)')
                 if IsControlJustReleased(0, 38) and onDutyTeh == 0 then 
                     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
                         if skin.sex == 0 then
@@ -165,7 +126,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				Framework.ShowHelpNotification("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -174,58 +135,43 @@ Citizen.CreateThread(function()
 					countcabutteh = 0
 				else
 					isPickingUp = true
-
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
-
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 						if canPickUp then
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "stone_farm",
+							if lib.progressBar({
 								duration = 2500,
 								label = 'Mencabut Teh',
-								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
+								useWhileDead = false,
+								canCancel = true,
+								disable = {
+									move = true,
+									car = true
 								},
-								animation = {
+								anim = {
 									animDict = "creatures@rottweiler@tricks@",
 									anim = "petting_franklin",
-									flags = 49,
 								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
-								end
-							end)
-
-							Citizen.Wait(2500)
-		
-							ESX.Game.DeleteObject(nearbyObject)
-		
-							table.remove(tehPlants, nearbyID)
-                            spawnedTeh = spawnedTeh - 1
-                            countcabutteh = countcabutteh + 1
-		
-							TriggerServerEvent('rw:pickedUpTeh')
+							}) then
+								DeleteObject(nearbyObject)
+				
+								table.remove(tehPlants, nearbyID)
+								spawnedTeh = spawnedTeh - 1
+								countcabutteh = countcabutteh + 1
+			
+								TriggerServerEvent('rw:pickedUpTeh')
+							else
+								RNRFunctions.ShowHelpNotification('Kamu Telah Cancel Progress!')
+							end
 						else
-							exports['mythic_notify']:SendAlert('error', 'Melebihi Batas', 10000)
+							RNRFunctions.ShowHelpNotification('Melebihi Batas', 'error')
 						end
-
 						isPickingUp = false
-
 					end, 'teh')
 				end
 			end
-
 		else
 			Citizen.Wait(500)
 		end
-
 	end
-
 end)
 
 function SpawnTanamanTeh()
@@ -233,7 +179,7 @@ function SpawnTanamanTeh()
 		Citizen.Wait(0)
 		local tehCoords = GenerateTehCoords()
 
-		ESX.Game.SpawnLocalObject('prop_veg_crop_04_leaf', tehCoords, function(obj)
+		RNRFunctions.SpawnLocalObject('prop_veg_crop_04_leaf', tehCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 
