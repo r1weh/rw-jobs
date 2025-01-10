@@ -27,26 +27,24 @@ Citizen.CreateThread(function()
         end
 
         if GetDistanceBetweenCoords(coords, 426.31, 6463.42, 28.78, true) < 3 then
-
-            if PlayerData.job.name == 'petani' then
-                letSleep = false
-                DrawMarker(39, 426.31, 6463.42, 28.78, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Cabe)')
-                if IsControlJustReleased(0, 38) and onDutyCabe == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        if skin.sex == 0 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
-                        elseif skin.sex == 1 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-                        end
-                    end)
-                    Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor',{ x = 426.31, y = 6463.42, z = 28.78}, 319.98, function(callback_vehicle)
-						onDutyCabe = 1
-						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
-					end)
-                end
-            end
+			letSleep = false
+			DrawMarker(39, 426.31, 6463.42, 28.78, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
+			RNRFunctions.drawtext('E - Mengambil Traktor (Cabe)')
+			if IsControlJustReleased(0, 38) and onDutyCabe == 0 then 
+				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+					elseif skin.sex == 1 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end
+				end)
+				Citizen.Wait(500)
+				RNRFunctions.hidedraw()
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Cabe,Config.VehicleSpawnFarm.CoordsCabe, 319.98, function(callback_vehicle)
+					onDutyCabe = 1
+					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
+				end)
+			end
         end
 		if letSleep then 
 			Citizen.Wait(500)
@@ -57,7 +55,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(cabePlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -77,7 +75,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyCabe = 2
 			else
 				if CurrentCheckPoint ~= LastCheckPoint then
@@ -99,7 +97,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Cabe) == GetEntityModel(vehicle) then
 						CurrentCheckPoint = CurrentCheckPoint + 1
 					end
 				end
@@ -126,7 +124,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.drawtext("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -136,7 +134,7 @@ Citizen.CreateThread(function()
 				else
 					isPickingUp = true
 
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
 							TriggerEvent("mythic_progbar:client:progress", {
@@ -164,7 +162,7 @@ Citizen.CreateThread(function()
 
 							Citizen.Wait(2500)
 		
-							ESX.Game.DeleteObject(nearbyObject)
+							DeleteObject(nearbyObject)
 		
 							table.remove(cabePlants, nearbyID)
                             spawnedCabe = spawnedCabe - 1
@@ -194,7 +192,7 @@ function SpawnTanamanCabe()
 		Citizen.Wait(0)
 		local cabeCoords = GenerateCabeCoords()
 
-		ESX.Game.SpawnLocalObject('prop_veg_crop_02', cabeCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Cabe, cabeCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

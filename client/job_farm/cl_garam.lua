@@ -1,40 +1,9 @@
-ESX = nil
 local spawnedGaram = 0
 local garamPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPointGaram = 0
 local LastCheckPointGaram   = -1
-
 local CheckPointsGaram = Config.CheckPoints.location_garam
-
 local onDutyGaram = 0
 local blipgaram = nil
 local countcabutgaram = 0
@@ -48,34 +17,29 @@ Citizen.CreateThread(function()
         
         if onDutyGaram == 2 then
 		    if GetDistanceBetweenCoords(coords, Config.CircleZones.GaramField.coords, true) < 50 then
-                if PlayerData.job.name == 'petani' then
-                    letSleep = false
-				    SpawnTanamanGaram()
-                end
+				letSleep = false
+				SpawnTanamanGaram()
             end
         end
 
         if GetDistanceBetweenCoords(coords, 421.65, 6468.73, 28.35, true) < 3 then
-
-            if PlayerData.job.name == 'petani' then
-                letSleep = false
-                DrawMarker(39, 421.65, 6468.73, 28.35, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Garam)')
-                if IsControlJustReleased(0, 38) and onDutyGaram == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        if skin.sex == 0 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
-                        elseif skin.sex == 1 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-                        end
-                    end)
-                    Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor',{ x = 421.65, y = 6468.73, z = 28.35}, 319.73, function(callback_vehicle)
-						onDutyGaram = 1
-						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
-					end)
-                end
-            end
+			letSleep = false
+			DrawMarker(39, 421.65, 6468.73, 28.35, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
+			RNRFunctions.drawtext('E - Mengambil Traktor (Garam)')
+			if IsControlJustReleased(0, 38) and onDutyGaram == 0 then 
+				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+					elseif skin.sex == 1 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end
+				end)
+				Citizen.Wait(500)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Garam,Config.VehicleSpawnFarm.CoordsGaram, 319.73, function(callback_vehicle)
+					onDutyGaram = 1
+					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
+				end)
+			end
         end
 		if letSleep then 
 			Citizen.Wait(500)
@@ -86,7 +50,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(garamPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -106,7 +70,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyGaram = 2
 			else
 				if CurrentCheckPointGaram ~= LastCheckPointGaram then
@@ -128,7 +92,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Garam) == GetEntityModel(vehicle) then
 						CurrentCheckPointGaram = CurrentCheckPointGaram + 1
 					end
 				end
@@ -155,7 +119,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.drawtext("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -165,7 +129,7 @@ Citizen.CreateThread(function()
 				else
 					isPickingUp = true
 
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
 							TriggerEvent("mythic_progbar:client:progress", {
@@ -190,11 +154,8 @@ Citizen.CreateThread(function()
 									-- Do Something If Event Wasn't Cancelled
 								end
 							end)
-
 							Citizen.Wait(2500)
-		
-							ESX.Game.DeleteObject(nearbyObject)
-		
+							DeleteObject(nearbyObject)
 							table.remove(garamPlants, nearbyID)
                             spawnedGaram = spawnedGaram - 1
                             countcabutgaram = countcabutgaram + 1
@@ -223,7 +184,7 @@ function SpawnTanamanGaram()
 		Citizen.Wait(0)
 		local garamCoords = GenerateGaramCoords()
 
-		ESX.Game.SpawnLocalObject('bkr_prop_coke_powder_01', garamCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Garam, garamCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

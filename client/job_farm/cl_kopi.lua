@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 					end
 				end)
 				Citizen.Wait(500)
-				RNRFunctions.SpawnVehicle('tractor2',{ x = -1140.39, y = 2671.08, z = 18.22}, 221.13, function(callback_vehicle)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Kopi,Config.VehicleSpawnFarm.CoordsKopi, 221.13, function(callback_vehicle)
 					onDutyKopi = 1
 					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 				end)
@@ -92,7 +92,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor2') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Kopi) == GetEntityModel(vehicle) then
 						CurrentCheckPointKopi = CurrentCheckPointKopi + 1
 					end
 				end
@@ -187,7 +187,7 @@ function SpawnTanamanKopi()
 		Citizen.Wait(0)
 		local kopiCoords = GenerateKopiCoords()
 
-		RNRFunctions.SpawnLocalObject('prop_veg_crop_04_leaf', kopiCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Kopi, kopiCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

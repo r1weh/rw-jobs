@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 					end
 				end)
 				Citizen.Wait(500)
-				RNRFunctions.SpawnVehicle('tractor',{ x = 437.73, y = 6456.33, z = 28.28}, 326.37, function(callback_vehicle)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Cabe, Config.VehicleSpawnFarm.CoordsCabe, 326.37, function(callback_vehicle)
 					onDutyTebu = 1
 					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 				end)
@@ -92,7 +92,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Cabe) == GetEntityModel(vehicle) then
 						CurrentCheckPointTebu = CurrentCheckPointTebu + 1
 					end
 				end
@@ -187,7 +187,7 @@ function SpawnTanamanTebu()
 		Citizen.Wait(0)
 		local tebuCoords = GenerateTebuCoords()
 
-		RNRFunctions.SpawnLocalObject('prop_veg_corn_01', tebuCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Tebu, tebuCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 			table.insert(tebuPlants, obj)

@@ -1,9 +1,3 @@
-Config = {}
-
--- # Framework --
-Config.Framework = 'qb' -- ESX | QB > Opsi Framework ur Use!
--- # Framework --
-
 Config.CircleZones = {
 	BatuField = {coords = vector3(2946.7392578125,2795.0068359375,40.665550231934), name = _U('blip_weedfield'), color = 25, sprite = 496, radius = 100.0},
 	WeedField = {coords = vector3(-499.86, 5459.9, 80.13), name = _U('blip_weedfield'), color = 25, sprite = 496, radius = 100.0},
@@ -120,12 +114,33 @@ Config.CheckPoints = {
 	}
 }
 
-Config.Blips = {
-	{title="Petani",colour=2, id=140,x = 428.76,  y = 6468.14, z = 28.78},
-	{title="Petani",colour=2, id=140,x = -1146.27,  y = 2664.13, z = 18.21},
-    {title="Pengolahan",colour=2, id=514,x = 433.55,  y = 6501.39, z = 28.81},
-    {title="Area Tambang Batu", colour=5, id=318, x = 2935.9653320313, y = 2796.3686523438, z = 40.767963409424},
-    {title="Pabrik Kayu", colour=4, id=237, x = -499.86, y = 5459.9,  z = 80.13},
+Config.PropFarm = {
+	Cabe = 'prop_veg_crop_02',
+	Coklat = 'prop_veg_crop_04_leaf',
+	Garam = 'bkr_prop_coke_powder_01',
+	Kopi = 'prop_veg_crop_04_leaf',
+	Padi = 'prop_veg_crop_05',
+	Tebu = 'prop_veg_corn_01',
+	Teh = 'prop_veg_crop_04_leaf',
 }
 
-lib.locale()
+Config.VehicleSpawnFarm = {
+	Cabe = 'tractor2', -- Code Spawn VehicleSpawnFarm
+	Coklat = 'tractor2', -- Code Spawn VehicleSpawnFarm
+	Garam = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+	Kopi = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+	Padi = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+	Tebu = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+	Teh = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+	CoordsKopi = { x = -1140.39, y = 2671.08, z = 18.22}, -- Coords VehicleSpawnFarm
+	CoordsPadi = { x = 428.14, y = 6476.53, z = 28.32},	-- Coords VehicleSpawnFarm
+	CoordsTebu = { x = 437.73, y = 6456.33, z = 28.28},	-- Coords VehicleSpawnFarm
+	CoordsGaram = { x = 421.65, y = 6468.73, z = 28.35},	-- Coords VehicleSpawnFarm
+	CoordsCoklat = { x = -1149.95, y = 2673.13, z = 18.22},	-- Coords VehicleSpawnFarm
+	CoordsCabe = { x = 426.31, y = 6463.42, z = 28.78},	-- Coords VehicleSpawnFarm
+	CoordsTeh = { x = -1146.27, y = 2664.13, z = 18.21},	-- Coords VehicleSpawnFarm
+}
+
+Config.Item = {
+	
+}

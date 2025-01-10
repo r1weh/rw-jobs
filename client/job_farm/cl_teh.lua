@@ -17,34 +17,29 @@ Citizen.CreateThread(function()
         
         if onDutyTeh == 2 then
 		    if GetDistanceBetweenCoords(coords, Config.CircleZones.TehField.coords, true) < 50 then
-                if PlayerData.job.name == 'petani' then
-                    letSleep = false
-				    SpawnTanamanTeh()
-                end
+				letSleep = false
+				SpawnTanamanTeh()
             end
         end
 
         if GetDistanceBetweenCoords(coords, -1146.27, 2664.13, 18.21, true) < 3 then
-
-            if PlayerData.job.name == 'petani' then
-                letSleep = false
-                DrawMarker(39, -1146.27, 2664.13, 18.21, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                RNRFunctions.ShowHelpNotification('E - Mengambil Traktor (Teh)')
-                if IsControlJustReleased(0, 38) and onDutyTeh == 0 then 
-                    RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        if skin.sex == 0 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
-                        elseif skin.sex == 1 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-                        end
-                    end)
-                    Citizen.Wait(500)
-                    RNRFunctions.SpawnVehicle('tractor2',{ x = -1146.27, y = 2664.13, z = 18.21}, 221.13, function(callback_vehicle)
-						onDutyTeh = 1
-						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
-					end)
-                end
-            end
+			letSleep = false
+			DrawMarker(39, -1146.27, 2664.13, 18.21, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
+			RNRFunctions.ShowHelpNotification('E - Mengambil Traktor (Teh)')
+			if IsControlJustReleased(0, 38) and onDutyTeh == 0 then 
+				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+					elseif skin.sex == 1 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end
+				end)
+				Citizen.Wait(500)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Teh,Config.VehicleSpawnFarm.CoordsTeh, 221.13, function(callback_vehicle)
+					onDutyTeh = 1
+					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
+				end)
+			end
         end
 		if letSleep then 
 			Citizen.Wait(500)
@@ -97,7 +92,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor2') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Teh) == GetEntityModel(vehicle) then
 						CurrentCheckPointTeh = CurrentCheckPointTeh + 1
 					end
 				end
@@ -177,7 +172,7 @@ function SpawnTanamanTeh()
 		Citizen.Wait(0)
 		local tehCoords = GenerateTehCoords()
 
-		RNRFunctions.SpawnLocalObject('prop_veg_crop_04_leaf', tehCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Teh, tehCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

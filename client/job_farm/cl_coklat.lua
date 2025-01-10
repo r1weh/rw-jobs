@@ -59,9 +59,9 @@ Citizen.CreateThread(function()
             if PlayerData.job.name == 'petani' then
                 letSleep = false
                 DrawMarker(39, -1149.95, 2673.13, 18.22, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Coklat)')
+                RNRFunctions.drawtext('E - Mengambil Traktor (Coklat)')
                 if IsControlJustReleased(0, 38) and onDutyCoklat == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+                    RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
                         if skin.sex == 0 then
                             TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
                         elseif skin.sex == 1 then
@@ -69,7 +69,7 @@ Citizen.CreateThread(function()
                         end
                     end)
                     Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor2',{ x = -1149.95, y = 2673.13, z = 18.22}, 18.22, function(callback_vehicle)
+                    RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Coklat,Config.VehicleSpawnFarm.CoordsCoklat, 18.22, function(callback_vehicle)
 						onDutyCoklat = 1
 						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 					end)
@@ -85,7 +85,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(coklatPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyCoklat = 2
 			else
 				if CurrentCheckPointCoklat ~= LastCheckPointCoklat then
@@ -127,7 +127,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor2') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Coklat) == GetEntityModel(vehicle) then
 						CurrentCheckPointCoklat = CurrentCheckPointCoklat + 1
 					end
 				end
@@ -154,7 +154,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.drawtext("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -164,7 +164,7 @@ Citizen.CreateThread(function()
 				else
 					isPickingUp = true
 
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
 							TriggerEvent("mythic_progbar:client:progress", {
@@ -192,7 +192,7 @@ Citizen.CreateThread(function()
 
 							Citizen.Wait(2500)
 		
-							ESX.Game.DeleteObject(nearbyObject)
+							DeleteObject(nearbyObject)
 		
 							table.remove(coklatPlants, nearbyID)
                             spawnedCoklat = spawnedCoklat - 1
@@ -222,10 +222,9 @@ function SpawnTanamanCoklat()
 		Citizen.Wait(0)
 		local coklatCoords = GenerateCoklatCoords()
 
-		ESX.Game.SpawnLocalObject('prop_veg_crop_04_leaf', coklatCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Coklat, coklatCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
-
 			table.insert(coklatPlants, obj)
 			spawnedCoklat = spawnedCoklat + 1
 		end)

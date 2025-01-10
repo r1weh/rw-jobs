@@ -35,7 +35,7 @@ Citizen.CreateThread(function()
 					end
 				end)
 				Citizen.Wait(500)
-				RNRFunctions.SpawnVehicle('tractor',{ x = 428.14, y = 6476.53, z = 28.32}, 138.74, function(callback_vehicle)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Cabe,Config.VehicleSpawnFarm.CoordsPadi, 138.74, function(callback_vehicle)
 					onDutyPadi = 1
 					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 				end)
@@ -92,7 +92,7 @@ Citizen.CreateThread(function()
 
 				if distance <= 3 then
 					vehicle = GetVehiclePedIsIn(playerPed, false)
-					if GetHashKey('tractor') == GetEntityModel(vehicle) then
+					if GetHashKey(Config.VehicleSpawnFarm.Cabe) == GetEntityModel(vehicle) then
 						CurrentCheckPointPadi = CurrentCheckPointPadi + 1
 					end
 				end
@@ -181,7 +181,7 @@ function SpawnTanamanPadi()
 		Citizen.Wait(0)
 		local padiCoords = GeneratePadiCoords()
 
-		RNRFunctions.SpawnLocalObject('prop_veg_crop_05', padiCoords, function(obj)
+		RNRFunctions.SpawnLocalObject(Config.PropFarm.Padi, padiCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 
