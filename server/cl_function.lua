@@ -30,3 +30,59 @@ RNRFunctions.Notify = function(msg, info)
         TriggerClientEvent('QBCore:Notify', source, msg, info)
 	end
 end
+
+RNRFunctions.AddItem = function(source, item, amount)
+    if Config.Inventory == 'ox_inventory' then
+        exports.ox_inventory:AddItem(source, item, amount)
+    elseif Config.Inventory == 'qb-inventory' then
+        local Player = Framework.Functions.GetPlayer(source)
+		Player.Functions.AddItem(item, amount)
+    elseif Config.Inventory == 'esx-default' then
+        local xPlayer = Framework.GetPlayerFromId(source)
+		xPlayer.addInventoryItem(item, amount)
+    else
+        print('Error: Sistem inventaris tidak valid yang ditentukan dalam Config.Inventory!')
+    end
+end
+
+RNRFunctions.Removeitem = function(source, item, amount)
+    if Config.Inventory == 'ox_inventory' then
+        exports.ox_inventory:RemoveItem(source, item, amount)
+    elseif Config.Inventory == 'qb-inventory' then
+        local Player = Framework.Functions.GetPlayer(source)
+		Player.Functions.RemoveItem(item, amount)
+    elseif Config.Inventory == 'esx-default' then
+        local xPlayer = Framework.GetPlayerFromId(source)
+		xPlayer.removeInventoryItem(item, amount)
+    else
+        print('Error: Sistem inventaris tidak valid yang ditentukan dalam Config.Inventory!')
+    end
+end
+
+RNRFunctions.CanCarryItem = function(source, item, amount)
+    if Config.Inventory == 'ox_inventory' then
+        return exports.ox_inventory:CanCarryItem(source, item, amount)
+    elseif Config.Inventory == 'qb-inventory' then
+        local Player = Framework.Functions.GetPlayer(source)
+        if Player then
+            return Player.Functions.CanCarryItem(item, amount)
+        else
+            print('Error: Player not found for source', source)
+            return false
+        end
+    elseif Config.Inventory == 'esx-default' then
+        local xPlayer = Framework.GetPlayerFromId(source)
+        if xPlayer then
+            local currentWeight = xPlayer.getWeight()
+            local itemWeight = Framework.Items[item].weight -- Pastikan ini sesuai dengan implementasi item di ESX
+            local maxWeight = Config.MaxWeight or xPlayer.maxWeight
+            return (currentWeight + (itemWeight * amount)) <= maxWeight
+        else
+            print('Error: Player not found for source', source)
+            return false
+        end
+    else
+        print('Error: Sistem inventaris tidak valid yang ditentukan dalam Config.Inventory!')
+        return false
+    end
+end

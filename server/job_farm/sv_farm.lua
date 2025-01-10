@@ -3,8 +3,8 @@ AddEventHandler('rw:pickedUpCannabis', function()
 	local xPlayer = Framework.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('wood')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -15,8 +15,8 @@ AddEventHandler('rw:pickedUpBatu', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('stone')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -27,8 +27,8 @@ AddEventHandler('rw:pickedUpCabe', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('cabe')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -39,8 +39,8 @@ AddEventHandler('rw:pickedUpCoklat', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('bubuk_coklat')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -51,8 +51,8 @@ AddEventHandler('rw:pickedUpGaram', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('garam')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -63,8 +63,8 @@ AddEventHandler('rw:pickedUpKopi', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('biji_kopi')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -75,8 +75,8 @@ AddEventHandler('rw:pickedUpPadi', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('padi')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -87,8 +87,8 @@ AddEventHandler('rw:pickedUpTebu', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('tebu')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
@@ -99,8 +99,8 @@ AddEventHandler('rw:pickedUpTeh', function()
 	local xPlayer = RNRFunctions.GetPlayerFromId(source)
 	local xItem = xPlayer.getInventoryItem('daun_teh')
 
-	if exports.ox_inventory:CanCarryItem(source, xItem, 1) then
-		exports.ox_inventory:AddItem(source, xItem, 1)
+	if RNRFunctions.CanCarryItem(source, xItem, 1) then
+		RNRFunctions.AddItem(source, xItem, 1)
 	else
 		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
 	end
