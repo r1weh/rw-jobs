@@ -114,3 +114,33 @@ RNRFunctions.SpawnLocalObject = function(objectName, coords, cb)
         end, coords, true)
 	end
 end
+
+RNRFunctions.SpawnVehicle = function(model, coords, heading, cb)
+    if Config.Framework == 'esx' then
+        Framework.Game.SpawnVehicle(model, coords, heading, function(vehicle)
+            if cb then
+                cb(vehicle)
+            end
+        end)
+    elseif Config.Framework == 'qb' then
+        Framework.Functions.SpawnVehicle(model, function(vehicle)
+            SetEntityCoords(vehicle, coords.x, coords.y, coords.z)
+            SetEntityHeading(vehicle, heading)
+            if cb then
+                cb(vehicle)
+            end
+        end)
+    end
+end
+
+RNRFunctions.drawtext = function ( pesan, icon )
+    lib.showTextUI(pesan, {
+        position = "left-center",
+        icon = icon or '',
+        style = {
+            borderRadius = 3,
+            backgroundColor = '#028cf5',
+            color = 'white'
+        }
+    })
+end

@@ -3,9 +3,7 @@ local tehPlants = {}
 local isPickingUp = false
 local CurrentCheckPointTeh = 0
 local LastCheckPointTeh   = -1
-
 local CheckPointsTeh = Config.CheckPoints.location_teh
-
 local onDutyTeh = 0
 local blipteh = nil
 local countcabutteh = 0
@@ -31,9 +29,9 @@ Citizen.CreateThread(function()
             if PlayerData.job.name == 'petani' then
                 letSleep = false
                 DrawMarker(39, -1146.27, 2664.13, 18.21, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                Framework.ShowHelpNotification('E - Mengambil Traktor (Teh)')
+                RNRFunctions.ShowHelpNotification('E - Mengambil Traktor (Teh)')
                 if IsControlJustReleased(0, 38) and onDutyTeh == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+                    RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
                         if skin.sex == 0 then
                             TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
                         elseif skin.sex == 1 then
@@ -41,7 +39,7 @@ Citizen.CreateThread(function()
                         end
                     end)
                     Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor2',{ x = -1146.27, y = 2664.13, z = 18.21}, 221.13, function(callback_vehicle)
+                    RNRFunctions.SpawnVehicle('tractor2',{ x = -1146.27, y = 2664.13, z = 18.21}, 221.13, function(callback_vehicle)
 						onDutyTeh = 1
 						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 					end)
@@ -57,7 +55,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(tehPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -77,7 +75,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyTeh = 2
 			else
 				if CurrentCheckPointTeh ~= LastCheckPointTeh then
@@ -126,7 +124,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				Framework.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.ShowHelpNotification("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then

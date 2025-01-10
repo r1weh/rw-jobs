@@ -1,40 +1,9 @@
-ESX = nil
 local spawnedPadi = 0
 local padiPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPointPadi = 0
 local LastCheckPointPadi   = -1
-
 local CheckPointsPadi = Config.CheckPoints.location_padi
-
 local onDutyPadi = 0
 local blippadi = nil
 local countcabutpadi = 0
@@ -48,34 +17,29 @@ Citizen.CreateThread(function()
         
         if onDutyPadi == 2 then
 		    if GetDistanceBetweenCoords(coords, Config.CircleZones.PadiField.coords, true) < 50 then
-                if PlayerData.job.name == 'petani' then
-                    letSleep = false
-				    SpawnTanamanPadi()
-                end
+				letSleep = false
+				SpawnTanamanPadi()
             end
         end
 
         if GetDistanceBetweenCoords(coords, 428.14, 6476.53, 28.32, true) < 3 then
-
-            if PlayerData.job.name == 'petani' then
-                letSleep = false
-                DrawMarker(39, 428.14, 6476.53, 28.32, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Padi)')
-                if IsControlJustReleased(0, 38) and onDutyPadi == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        if skin.sex == 0 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
-                        elseif skin.sex == 1 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-                        end
-                    end)
-                    Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor',{ x = 428.14, y = 6476.53, z = 28.32}, 138.74, function(callback_vehicle)
-						onDutyPadi = 1
-						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
-					end)
-                end
-            end
+			letSleep = false
+			DrawMarker(39, 428.14, 6476.53, 28.32, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
+			RNRFunctions.ShowHelpNotification('E - Mengambil Traktor (Padi)')
+			if IsControlJustReleased(0, 38) and onDutyPadi == 0 then 
+				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+					elseif skin.sex == 1 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end
+				end)
+				Citizen.Wait(500)
+				RNRFunctions.SpawnVehicle('tractor',{ x = 428.14, y = 6476.53, z = 28.32}, 138.74, function(callback_vehicle)
+					onDutyPadi = 1
+					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
+				end)
+			end
         end
 		if letSleep then 
 			Citizen.Wait(500)
@@ -86,7 +50,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(padiPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -106,7 +70,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyPadi = 2
 			else
 				if CurrentCheckPointPadi ~= LastCheckPointPadi then
@@ -155,7 +119,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.ShowHelpNotification("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -165,7 +129,7 @@ Citizen.CreateThread(function()
 				else
 					isPickingUp = true
 
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
 							TriggerEvent("mythic_progbar:client:progress", {
@@ -190,22 +154,16 @@ Citizen.CreateThread(function()
 									-- Do Something If Event Wasn't Cancelled
 								end
 							end)
-
 							Citizen.Wait(2500)
-		
-							ESX.Game.DeleteObject(nearbyObject)
-		
+							DeleteObject(nearbyObject)
 							table.remove(padiPlants, nearbyID)
                             spawnedPadi = spawnedPadi - 1
                             countcabutpadi = countcabutpadi + 1
-		
 							TriggerServerEvent('rw:pickedUpPadi')
 						else
-							exports['mythic_notify']:SendAlert('error', 'Melebihi Batas', 10000)
+							RNRFunctions.ShowHelpNotification('Melebihi Batas', 'error')
 						end
-
 						isPickingUp = false
-
 					end, 'padi')
 				end
 			end
@@ -223,7 +181,7 @@ function SpawnTanamanPadi()
 		Citizen.Wait(0)
 		local padiCoords = GeneratePadiCoords()
 
-		ESX.Game.SpawnLocalObject('prop_veg_crop_05', padiCoords, function(obj)
+		RNRFunctions.SpawnLocalObject('prop_veg_crop_05', padiCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

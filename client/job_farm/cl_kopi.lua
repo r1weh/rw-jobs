@@ -1,40 +1,9 @@
-ESX = nil
 local spawnedKopi = 0
 local kopiPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPointKopi = 0
 local LastCheckPointKopi   = -1
-
 local CheckPointsKopi = Config.CheckPoints.location_kopi
-
 local onDutyKopi = 0
 local blipkopi = nil
 local countcabutkopi = 0
@@ -48,34 +17,29 @@ Citizen.CreateThread(function()
         
         if onDutyKopi == 2 then
 		    if GetDistanceBetweenCoords(coords, Config.CircleZones.KopiField.coords, true) < 50 then
-                if PlayerData.job.name == 'petani' then
-                    letSleep = false
-				    SpawnTanamanKopi()
-                end
+				letSleep = false
+				SpawnTanamanKopi()
             end
         end
 
         if GetDistanceBetweenCoords(coords, -1140.39, 2671.08, 18.22, true) < 3 then
-
-            if PlayerData.job.name == 'petani' then
-                letSleep = false
-                DrawMarker(39, -1140.39, 2671.08, 18.22, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-                ESX.ShowHelpNotification('E - Mengambil Traktor (Kopi)')
-                if IsControlJustReleased(0, 38) and onDutyKopi == 0 then 
-                    ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        if skin.sex == 0 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
-                        elseif skin.sex == 1 then
-                            TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
-                        end
-                    end)
-                    Citizen.Wait(500)
-                    ESX.Game.SpawnVehicle('tractor2',{ x = -1140.39, y = 2671.08, z = 18.22}, 221.13, function(callback_vehicle)
-						onDutyKopi = 1
-						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
-					end)
-                end
-            end
+			letSleep = false
+			DrawMarker(39, -1140.39, 2671.08, 18.22, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
+			RNRFunctions.drawtext('E - Mengambil Traktor (Kopi)')
+			if IsControlJustReleased(0, 38) and onDutyKopi == 0 then 
+				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
+					if skin.sex == 0 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_male)
+					elseif skin.sex == 1 then
+						TriggerEvent('skinchanger:loadClothes', skin, jobSkin.skin_female)
+					end
+				end)
+				Citizen.Wait(500)
+				RNRFunctions.SpawnVehicle('tractor2',{ x = -1140.39, y = 2671.08, z = 18.22}, 221.13, function(callback_vehicle)
+					onDutyKopi = 1
+					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
+				end)
+			end
         end
 		if letSleep then 
 			Citizen.Wait(500)
@@ -86,7 +50,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(kopiPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -106,7 +70,7 @@ Citizen.CreateThread(function()
 				end
 
 				vehicle = GetVehiclePedIsIn(playerPed, false)
-				ESX.Game.DeleteVehicle(vehicle)
+				DeleteVehicle(vehicle)
 				onDutyKopi = 2
 			else
 				if CurrentCheckPointKopi ~= LastCheckPointKopi then
@@ -155,7 +119,7 @@ Citizen.CreateThread(function()
 		if nearbyObject and IsPedOnFoot(playerPed) then
 
 			if not isPickingUp  then
-				ESX.ShowHelpNotification("E - Mengambil")
+				RNRFunctions.drawtext("E - Mengambil")
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
@@ -165,7 +129,7 @@ Citizen.CreateThread(function()
 				else
 					isPickingUp = true
 
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
 							TriggerEvent("mythic_progbar:client:progress", {
@@ -193,7 +157,7 @@ Citizen.CreateThread(function()
 
 							Citizen.Wait(2500)
 		
-							ESX.Game.DeleteObject(nearbyObject)
+							DeleteObject(nearbyObject)
 		
 							table.remove(kopiPlants, nearbyID)
                             spawnedKopi = spawnedKopi - 1
@@ -201,7 +165,7 @@ Citizen.CreateThread(function()
 		
 							TriggerServerEvent('rw:pickedUpKopi')
 						else
-							exports['mythic_notify']:SendAlert('error', 'Melebihi Batas', 10000)
+							RNRFunctions.ShowHelpNotification('Melebihi Batas', 'error')
 						end
 
 						isPickingUp = false
@@ -223,7 +187,7 @@ function SpawnTanamanKopi()
 		Citizen.Wait(0)
 		local kopiCoords = GenerateKopiCoords()
 
-		ESX.Game.SpawnLocalObject('prop_veg_crop_04_leaf', kopiCoords, function(obj)
+		RNRFunctions.SpawnLocalObject('prop_veg_crop_04_leaf', kopiCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 
