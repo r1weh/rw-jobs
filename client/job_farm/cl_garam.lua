@@ -130,43 +130,32 @@ Citizen.CreateThread(function()
 					isPickingUp = true
 
 					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
-
-						if canPickUp then
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "stone_farm",
-								duration = 2500,
-								label = 'Mengambil Garam',
-								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
-								},
-								animation = {
-									animDict = "random@domestic",
-								anim = "pickup_low",
-								flags = 49,
-								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
+							if canPickUp then
+								if lib.progressBar({
+									duration = 2500,
+									label = 'Mengambil Garam',
+									useWhileDead = true,
+									canCancel = true,
+									disable = {
+										car = true,
+									},
+									anim = {
+										dict = "random@domestic",
+										clip = "pickup_low"
+									},
+								}) then
+									DeleteObject(nearbyObject)
+									table.remove(garamPlants, nearbyID)
+									spawnedGaram = spawnedGaram - 1
+									countcabutgaram = countcabutgaram + 1
+									TriggerServerEvent('rw:pickedUpGaram')
+								else 
+									RNRFunctions.CLNotify('Kamu Cancel', 'error')
 								end
-							end)
-							Citizen.Wait(2500)
-							DeleteObject(nearbyObject)
-							table.remove(garamPlants, nearbyID)
-                            spawnedGaram = spawnedGaram - 1
-                            countcabutgaram = countcabutgaram + 1
-		
-							TriggerServerEvent('rw:pickedUpGaram')
-						else
-							exports['mythic_notify']:SendAlert('error', 'Melebihi Batas', 10000)
-						end
-
+							else
+								RNRFunctions.CLNotify('Melebihi Batas', 'error')
+							end
 						isPickingUp = false
-
 					end, 'garam')
 				end
 			end

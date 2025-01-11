@@ -76,6 +76,20 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RNRFunctions.CLNotify = function(msg, info)
+	if Config.Framework == 'esx' then
+        TriggerEvent('esx:showNotification', source, msg)
+    elseif Config.Framework == 'qb' then
+        TriggerEvent('QBCore:Notify', source, msg, info)
+    elseif Config.Inventory == 'ox' then
+        lib.notify({
+			title = 'Information',
+			description = msg,
+			type = info
+		})
+	end
+end
+
 RNRFunctions.ShowHelpNotification = function(msg, info)
 	if Config.Framework == 'esx' then
         TriggerEvent('esx:showNotification',msg)

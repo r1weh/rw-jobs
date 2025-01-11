@@ -2,6 +2,8 @@ Config, RNR = {}, {}
 
 -- # Framework --
 Config.Framework = 'qb' -- ESX | QB > Opsi Framework ur Use!
+Config.Inventory = 'ox_inventory' -- ox_inventory | qb-inventory | esx-default > Opsi Inventory Files!
+
 -- # Framework --
 
 Config.Blips = {

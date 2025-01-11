@@ -1,38 +1,8 @@
-ESX = nil
 local spawnedCoklat = 0
 local coklatPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
 local CurrentCheckPointCoklat = 0
 local LastCheckPointCoklat    = -1
-
 local CheckPointsCoklat = Config.CheckPoints.location_coklat
 local onDutyCoklat = 0
 local blipcoklat = nil
@@ -167,40 +137,29 @@ Citizen.CreateThread(function()
 					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 
 						if canPickUp then
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "stone_farm",
+							if lib.progressBar({
 								duration = 2500,
 								label = 'Memetik Coklat',
 								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
+								canCancel = true,
+								disable = {
+									car = true,
 								},
-								animation = {
-									animDict = "creatures@rottweiler@tricks@",
-									anim = "petting_franklin",
-									flags = 49,
+								anim = {
+									dict = "creatures@rottweiler@tricks@",
+									clip = "petting_franklin"
 								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
-								end
-							end)
-
-							Citizen.Wait(2500)
-		
-							DeleteObject(nearbyObject)
-		
-							table.remove(coklatPlants, nearbyID)
-                            spawnedCoklat = spawnedCoklat - 1
-                            countcabutcoklat = countcabutcoklat + 1
-		
-							TriggerServerEvent('rw:pickedUpCoklat')
+							}) then
+								DeleteObject(nearbyObject)
+								table.remove(coklatPlants, nearbyID)
+								spawnedCoklat = spawnedCoklat - 1
+								countcabutcoklat = countcabutcoklat + 1
+								TriggerServerEvent('rw:pickedUpCoklat')
+							else 
+								RNRFunctions.Notify('Kamu Cancel', 'error')
+							end
 						else
-							exports['mythic_notify']:SendAlert('error', 'Melebihi Batas', 10000)
+							RNRFunctions.Notify('Melebihi Batas', 'error')
 						end
 
 						isPickingUp = false

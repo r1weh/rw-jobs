@@ -82,8 +82,7 @@ AddEventHandler("ttyy_butcher:catch", function()
             local netid = NetworkGetNetworkIdFromEntity(closestAnimal)
             if DoesEntityExist(closestAnimal) and NetworkHasControlOfNetworkId(netid) then
                 local ent = Entity(NetworkGetEntityFromNetworkId(netid))
-
-                exports.ox_inventory:Progress({
+                if lib.progressBar({
                     duration = 1500,
                     label = "Pick up",
                     useWhileDead = false,
@@ -98,23 +97,21 @@ AddEventHandler("ttyy_butcher:catch", function()
                         clip = "pickup_low",
                         flags = 49,
                     },
-                }, function(cancel)
-                    if not cancel then
-                        ClearPedTasksImmediately(PlayerPedId())
-                        
-                        isButchering = false
-                        local rnr = TriggerServerEvent
-                        rnr('ttyy_butcher:Catch', 'ayam', 1)
-                        Wait(150)
-                        SetEntityAsMissionEntity(closestAnimal, true, true)
-                        SetEntityAsNoLongerNeeded(closestAnimal)
-                        DeleteEntity(closestAnimal)
-
-                        table.remove(Chickens, nearbyID)
-                        spawnedChickenAlive = spawnedChickenAlive - 1
-                        --print('sisa di ladang' .. spawnedChickenAlive)
-                    end
-                end)
+                }) then 
+                    ClearPedTasksImmediately(PlayerPedId())
+                    isButchering = false
+                    local rnr = TriggerServerEvent
+                    rnr('ttyy_butcher:Catch', 'ayam', 1)
+                    Wait(150)
+                    SetEntityAsMissionEntity(closestAnimal, true, true)
+                    SetEntityAsNoLongerNeeded(closestAnimal)
+                    DeleteEntity(closestAnimal)
+                    table.remove(Chickens, nearbyID)
+                    spawnedChickenAlive = spawnedChickenAlive - 1
+                    --print('sisa di ladang' .. spawnedChickenAlive)
+                 else
+                    print('Do stuff when cancelled')
+                 end
             end
         else
             RNRFunctions.ShowHelpNotification("This chicken is not dead", "error")

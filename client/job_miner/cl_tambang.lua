@@ -1,36 +1,6 @@
-ESX = nil
 local spawnedBatu = 0
 local batuPlants = {}
 local isPickingUp = false
-
-local PlayerData = {}
-
-
-
-Citizen.CreateThread(function()
-	while ESX == nil do
-		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-		Citizen.Wait(0)
-	end
-
-	while ESX.GetPlayerData().job == nil do
-        Citizen.Wait(10)
-	end
-	
-    PlayerData = ESX.GetPlayerData()
-end)
-
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
-    PlayerData = xPlayer
-end)
-
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    PlayerData.job = job
-end)
-
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
@@ -61,53 +31,40 @@ Citizen.CreateThread(function()
 		end
 
 		if nearbyObject and IsPedOnFoot(playerPed) then
-
-			if not isPickingUp and PlayerData.job.name == 'miner' then
-				ESX.ShowHelpNotification("E - Mengebor")
+			RNRFunctions.drawtext("E - Mengebor")
+			if not isPickingUp then
+				RNRFunctions.hidedraw()
 			end
 
 			if IsControlJustReleased(0, Keys['E']) and not isPickingUp then
 				if PlayerData.job.name == 'miner' then
 					isPickingUp = true
-
-					ESX.TriggerServerCallback('rw:canPickUp', function(canPickUp)
-
+					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
 						if canPickUp then
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "stone_farm",
+							if lib.progressBar({
 								duration = 10000,
 								label = 'Mengebor Batu',
-								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
+								useWhileDead = false,
+								canCancel = true,
+								disable = {
+									move = true,
+									car = true
 								},
-								animation = {
-									task = "WORLD_HUMAN_CONST_DRILL",
+								anim = {
+									clip = "WORLD_HUMAN_CONST_DRILL"
 								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
-								end
-							end)
-
-							Citizen.Wait(10000)
-		
-							ESX.Game.DeleteObject(nearbyObject)
-		
-							table.remove(batuPlants, nearbyID)
-							spawnedBatu = spawnedBatu - 1
-		
-							TriggerServerEvent('rw:pickedUpBatu')
+							}) then
+								DeleteObject(nearbyObject)
+								table.remove(batuPlants, nearbyID)
+								spawnedBatu = spawnedBatu - 1
+								TriggerServerEvent('rw:pickedUpBatu')
+							else
+								RNRFunctions.ShowHelpNotification('Kamu Telah Cancel Progress!')
+							end
 						else
-							TriggerEvent("rri-notify:Icon","Tas Kamu Penuh Maszeh","top-right",2500,"blue-10","white",true,"")
+							RNRFunctions.ShowHelpNotification('Melebihi Batas', 'error')
 						end
-
 						isPickingUp = false
-
 					end, 'stone')
 				end
 			end
@@ -123,7 +80,7 @@ end)
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
 		for k, v in pairs(batuPlants) do
-			ESX.Game.DeleteObject(v)
+			DeleteObject(v)
 		end
 	end
 end)
@@ -133,7 +90,7 @@ function SpawnBatuPlants()
 		Citizen.Wait(0)
 		local batuCoords = GenerateBatuCoords()
 
-		ESX.Game.SpawnLocalObject('prop_rock_5_c', batuCoords, function(obj)
+		RNRFunctions.SpawnLocalObject('prop_rock_5_c', batuCoords, function(obj)
 			PlaceObjectOnGroundProperly(obj)
 			FreezeEntityPosition(obj, true)
 

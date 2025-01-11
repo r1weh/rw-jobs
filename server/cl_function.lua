@@ -86,3 +86,18 @@ RNRFunctions.CanCarryItem = function(source, item, amount)
         return false
     end
 end
+
+RNRFunctions.getInventoryItem = function(source, item)
+    if Config.Framework == 'esx' then
+        local xPlayer = Framework.GetPlayerFromId(source)
+        if xPlayer then
+            return xPlayer.getInventoryItem(item) -- Mengembalikan data item
+        end
+    elseif Config.Framework == 'qb' then
+        local Player = RNRFunctions.GetPlayerFromId(source)
+        if Player then
+            return Player.Functions.GetItemByName(item) -- Mengembalikan data item
+        end
+    end
+    return nil -- Mengembalikan nilai nil jika pemain tidak ditemukan atau framework salah
+end

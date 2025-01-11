@@ -130,46 +130,32 @@ Citizen.CreateThread(function()
 					isPickingUp = true
 
 					RNRFunctions.TriggerServerCallback('rw:canPickUp', function(canPickUp)
-
 						if canPickUp then
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "stone_farm",
+							if lib.progressBar({
 								duration = 2500,
 								label = 'Mencabut Tebu',
 								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
+								canCancel = true,
+								disable = {
+									car = true,
 								},
-								animation = {
-									animDict = "creatures@rottweiler@tricks@",
-									anim = "petting_franklin",
-									flags = 49,
+								anim = {
+									dict = "creatures@rottweiler@tricks@",
+									clip = "petting_franklin"
 								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
-								end
-							end)
-
-							Citizen.Wait(2500)
-		
-							DeleteObject(nearbyObject)
-		
-							table.remove(tebuPlants, nearbyID)
-                            spawnedTebu = spawnedTebu - 1
-                            countcabuttebu = countcabuttebu + 1
-		
-							TriggerServerEvent('rw:pickedUpTebu')
+							}) then
+								DeleteObject(nearbyObject)
+								table.remove(tebuPlants, nearbyID)
+								spawnedTebu = spawnedTebu - 1
+								countcabuttebu = countcabuttebu + 1
+								TriggerServerEvent('rw:pickedUpTebu')
+							else 
+								RNRFunctions.CLNotify('Kamu Cancel', 'error')
+							end
 						else
-							RNRFunctions.ShowHelpNotification('Melebihi Batas', 'error')
+							RNRFunctions.CLNotify('Melebihi Batas', 'error')
 						end
-
 						isPickingUp = false
-
 					end, 'tebu')
 				end
 			end
