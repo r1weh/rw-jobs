@@ -5,10 +5,14 @@ author 'RNR`Developments'
 description 'All Job Non Whitelist!'
 version '0.0.2'
 
+shared_scripts {
+	'@ox_lib/init.lua',
+	'shared/sh_*.lua'
+}
+
 server_scripts {
 	'@oxmysql/lib/MySQL.lua',
-    'config.lua',
-	'server/*.lua'
+	'server/**.lua'
 }
 
 client_scripts {
