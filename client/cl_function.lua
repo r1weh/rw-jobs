@@ -131,15 +131,16 @@ RNRFunctions.progressbar = function(label, durasi, anim, prop, onFinish, onCance
 end
 
 RNRFunctions.SpawnLocalObject = function(objectName, coords, cb)
-	if Config.Framework	== 'esx' then
-		Framework.Game.SpawnLocalObject(objectName, coords, function(obj)
-            if cb then cb(obj) end
-        end)
-	elseif Config.Framework == 'qb' then
-		Framework.Functions.SpawnObject(objectName, function(obj)
-            if cb then cb(obj) end
-        end, coords, true)
-	end
+    local model = GetHashKey(objectName)
+    RequestModel(model)
+    while not HasModelLoaded(model) do
+        Citizen.Wait(10)
+    end
+    local obj = CreateObject(model, coords.x, coords.y, coords.z, false, false, true)
+    SetEntityAsMissionEntity(obj, true, true)
+    if cb then
+        cb(obj)
+    end
 end
 
 RNRFunctions.SpawnVehicle = function(model, coords, heading, cb)

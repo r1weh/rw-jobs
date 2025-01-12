@@ -1,3 +1,4 @@
+Config.DistanceSpawn = 50.0
 Config.PedList = {
     -- { -- EXEMPLE!
     --     Model = 'a_m_y_hipster_01',

@@ -169,6 +169,7 @@ Citizen.CreateThread(function()
 			end
 
 		else
+			RNRFunctions.hidedraw()
 			Citizen.Wait(500)
 		end
 

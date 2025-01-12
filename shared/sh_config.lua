@@ -4,7 +4,7 @@ Config, RNR = {}, {}
 Config.Framework = 'qb' -- ESX | QB > Opsi Framework ur Use!
 Config.Inventory = 'ox_inventory' -- ox_inventory | qb-inventory | esx-default > Opsi Inventory Files!
 Config.Target = 'ox_target'
-Config.NameResourceCore = 'rnr_core' -- es_extended | qb-core > Opsi Resource Core Files!
+Config.NameResourceCore = 'qb-core' -- es_extended | qb-core > Opsi Resource Core Files!
 -- # Framework --
 Config.Debug = false -- Print Debug
 
