@@ -4,7 +4,6 @@ local onDuty = false
 local oxTargetaddGetBox = nil
 local oxTargetremoveGetBox = nil
 
-
 local function DrawText3D(x, y, z, text)
 	SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -49,7 +48,6 @@ local function DropPackage()
     DeleteObject(carryPackage)
     carryPackage = nil
 end
-
 -- Threads
 
 CreateThread(function()
@@ -146,9 +144,7 @@ CreateThread(function()
                 label = 'Buka Job Recycle',
                 name = 'recycleOn',
                 icon = 'fa-solid fa-boxes-packing',
-                onSelect = function ()
-                    openMenuDuty()
-                end
+                onSelect = openMenuDuty()
             }
         }
     })
