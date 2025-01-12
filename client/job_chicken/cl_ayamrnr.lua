@@ -45,28 +45,31 @@ AddEventHandler("rnr_chicken:catch", function()
         end
     end
 
-    -- Debugging untuk melihat ped terdekat
-    -- print("Closest animal:", closestAnimal)
-    -- print("Closest distance:", closestDistance)
+    if Config.Debug then
+        print("Closest animal:", closestAnimal)
+        print("Closest distance:", closestDistance)
+    end
 
     if closestAnimal ~= -1 and closestDistance <= 2.0 then
-        -- Debugging untuk memeriksa status ayam
-        -- print("Entity Health:", GetEntityHealth(closestAnimal))
-        -- print("Entity Source of Death:", GetPedSourceOfDeath(closestAnimal))
-
-        -- Memastikan ayam mati dan tidak memiliki health
+        if Config.Debug then
+            print("Entity Health:", GetEntityHealth(closestAnimal))
+            print("Entity Source of Death:", GetPedSourceOfDeath(closestAnimal))
+        end
         if GetPedType(closestAnimal) == 28 then
             local health = GetEntityHealth(closestAnimal)
             if health <= 0 then
-                -- Pastikan ayam sudah mati
                 if GetPedSourceOfDeath(closestAnimal) == PlayerPedId() then
                     print("Chicken is dead and killed by player.")
                     dead = true
                 else
-                    print("Chicken is dead but not killed by player.")
+                    if Config.Debug then
+                        print("Chicken is dead but not killed by player.")
+                    end
                 end
             else
-                print("Chicken is still alive with health:", health)
+                if Config.Debug then
+                    print("Chicken is still alive with health:", health)
+                end
             end
         end
 
@@ -108,44 +111,38 @@ AddEventHandler("rnr_chicken:catch", function()
                     DeleteEntity(closestAnimal)
                     table.remove(Chickens, nearbyID)
                     spawnedChickenAlive = spawnedChickenAlive - 1
-                    --print('sisa di ladang' .. spawnedChickenAlive)
+                    if Config.Debug then
+                        print('sisa di ladang' .. spawnedChickenAlive)
+                    end
                  else
-                    print('Do stuff when cancelled')
+                    if Config.Debug then
+                        print('Do stuff when cancelled')
+                    end
                  end
             end
         else
             RNRFunctions.ShowHelpNotification("This chicken is not dead", "error")
         end
     else
-        print("No chicken nearby or too far away.")
+        if Config.Debug then
+            print("No chicken nearby or too far away.")
+        end
     end
 end)
-
-
-
-
-
 
 function SpawnChickens()
     while spawnedChickenAlive < 5 do
         Wait(0)
         local rnr_model = 'a_c_hen'
         local chickenCoords = GenerateChickenAliveCoords()
-
         lib.requestModel(rnr_model, 5000) -- Meminta model dengan timeout (dalam ms)
-
         local Animal = CreatePed(5, rnr_model, chickenCoords, 0.0, true, false)
         SetEntityAsMissionEntity(Animal, false, false)
-
-        -- Perintah agar ayam bergerak secara acak
         TaskWanderStandard(Animal, 10.0, 10) -- 10.0 adalah radius bergerak, 10 adalah durasi
-
         table.insert(Chickens, Animal)
         spawnedChickenAlive = spawnedChickenAlive + 1
     end
 end
-
-
 
 function ValidateChickenAliveCoord(chickenCoord)
 	if spawnedChickenAlive > 0 then
@@ -204,7 +201,6 @@ function GetCoordZChicken(x, y)
 	return 53.85
 end
 
--- processing handler
 RegisterNetEvent('rnr_chicken:Process', function()
 	potongAyam()
 end)
@@ -249,7 +245,7 @@ function potongAyam()
             dict = 'anim@amb@business@coc@coc_unpack_cut_left@',
             clip = 'coke_cut_v1_coccutter'
         }
-    }) then 
+    }) then
         for k, v in pairs(Config.Items['PotongAyam'].butuh) do
             lib.callback.await('item:remove', false, {
                 item = v.item,
