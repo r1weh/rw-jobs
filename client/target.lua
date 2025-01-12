@@ -1,7 +1,8 @@
+local drawZones = Config.Debug
+
 Citizen.CreateThread(function()
     if Config.Target == "ox_target" then
         local ox_target = exports.ox_target
-        local drawZones = Config.Debug
         local chicken = {
             'a_c_hen',
         }
@@ -14,50 +15,8 @@ Citizen.CreateThread(function()
             }
         })
         
-        ox_target:addBoxZone({
-            coords = vec3(-95.0819, 6207.5879, 31.0259),
-            size = vec3(2, 2, 2),
-            rotation = 45,
-            debug = drawZones,
-            options = {
-                {
-                    event = "rnr_chicken:Process",
-                    icon = "fa-solid fa-drumstick-bite",
-                    label = "Cut Chicken"
-                }
-            }
-        })
-        
-        ox_target:addBoxZone({
-            coords = vec3(-99.9406, 6201.8672, 31.0685),
-            size = vec3(2, 2, 2),
-            rotation = 45,
-            debug = drawZones,
-            options = {
-                {
-                    event = "rnr_chicken:Process2",
-                    icon = "fa-solid fa-drumstick-bite",
-                    label = "Cut Chicken",
-                }
-            }
-        })
-
-        ox_target:addBoxZone({
-            coords = vec3(-103.8782, 6208.5313, 30.9089),
-            size = vec3(2, 2, 2),
-            rotation = 136.2,
-            debug = drawZones,
-            options = {
-                {
-                    event = "rnr_chicken:Pack",
-                    icon = "fa-solid fa-drumstick-bite",
-                    label = "Pack Chicken",
-                }
-            }
-        })
-        
-        for i = 1, #Config.Lokasi['PotongAyam'].zones do
-            local temp = Config.Lokasi['PotongAyam'].zones[i]
+        for i = 1, #Config.Lokasi['CutChicken'].zones do
+            local temp = Config.Lokasi['CutChicken'].zones[i]
             ox_target:addBoxZone({
                 name = temp.name,
                 coords = temp.coords,
@@ -80,10 +39,9 @@ Citizen.CreateThread(function()
                 }
             })
         end
-    
         -- Packing Ayam
-        for i = 1, #Config.Lokasi['PackingAyam'].zones do
-            local temp = Config.Lokasi['PackingAyam'].zones[i]
+        for i = 1, #Config.Lokasi['ChickenPacking'].zones do
+            local temp = Config.Lokasi['ChickenPacking'].zones[i]
             ox_target:addBoxZone({
                 name = temp.name,
                 coords = temp.coords,
@@ -125,42 +83,46 @@ Citizen.CreateThread(function()
             distance = 2.0
         })
         
-        exports['qb-target']:AddBoxZone("cut_chicken_1", vector3(-95.0819, 6207.5879, 31.0259), 2, 2, {
-            name = "cut_chicken_1",
-            heading = 45,
-            debugPoly = false, -- Ubah ke true jika ingin melihat zona
-            minZ = 30.0,
-            maxZ = 32.0,
-        }, {
-            options = {
-                {
-                    type = "client",
-                    event = "rnr_chicken:Process",
-                    icon = "fas fa-drumstick-bite",
-                    label = "Cut Chicken",
-                    -- item = 'WEAPON_KNIFE',
+        for i = 1, #Config.Lokasi['CutChicken'].zones do
+            local temp = Config.Lokasi['CutChicken'].zones[i]
+            exports['qb-target']:AddBoxZone("cut_chicken_1", temp.coords, 2, 2, {
+                name = "cut_chicken_1",
+                heading = temp.rotation,
+                debugPoly = drawZones, -- Ubah ke true jika ingin melihat zona
+                minZ = 30.0,
+                maxZ = 32.0,
+            }, {
+                options = {
+                    {
+                        type = "client",
+                        event = "rnr_chicken:Process",
+                        icon = "fas fa-drumstick-bite",
+                        label = temp.name,
+                    },
                 },
-            },
-            distance = 2.0
-        })
-        
-        exports['qb-target']:AddBoxZone("cut_chicken_2", vector3(-99.9406, 6201.8672, 31.0685), 2, 2, {
-            name = "cut_chicken_2",
-            heading = 45,
-            debugPoly = false, -- Ubah ke true jika ingin melihat zona
-            minZ = 30.0,
-            maxZ = 32.0,
-        }, {
-            options = {
-                {
-                    type = "client",
-                    event = "rnr_chicken:Process2",
-                    icon = "fas fa-drumstick-bite",
-                    label = "Cut Chicken",
-                    -- item = 'WEAPON_KNIFE',
+                distance = 2.0
+            })
+        end
+
+        for i = 1, #Config.Lokasi['CutChicken'].zones do
+            local temp = Config.Lokasi['CutChicken'].zones[i]
+            exports['qb-target']:AddBoxZone("cut_chicken_2", temp.coords, 2, 2, {
+                name = "cut_chicken_2",
+                heading = temp.rotation,
+                debugPoly = drawZones, -- Ubah ke true jika ingin melihat zona
+                minZ = 30.0,
+                maxZ = 32.0,
+            }, {
+                options = {
+                    {
+                        type = "client",
+                        event = "rnr_chicken:Process",
+                        icon = "fas fa-drumstick-bite",
+                        label = temp.name,
+                    },
                 },
-            },
-            distance = 2.0
-        })
+                distance = 2.0
+            })
+        end
     end
 end)

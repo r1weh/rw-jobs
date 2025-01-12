@@ -1,35 +1,16 @@
-RegisterNetEvent('rnr_chicken:Catch')
-AddEventHandler('rnr_chicken:Catch', function(item, count)
-    if RNRFunctions.CanCarryItem(source, item, count) then
-        RNRFunctions.AddItem(source, item, count)
+lib.callback.register('rnr_jobs:server:item_add', function (source, data)
+    local src = source
+    if not data then return end
+    if RNRFunctions.CanCarryItem(src, data.item, data.amount) then
+        RNRFunctions.AddItem(src, data.item, data.amount)
+        return
     else
         RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
     end
 end)
 
-RegisterNetEvent('rnr_chicken:Process')
-AddEventHandler('rnr_chicken:Process', function()
-    -- local slaughtered = xPlayer.canCarryItem('slaughtered_chicken', 1)
-    if RNRFunctions.CanCarryItem('ayam', 5) then
-        RNRFunctions.AddItem('ayampotong', 5)
-        RNRFunctions.AddItem('buluayam', 2)
-        RNRFunctions.Removeitem('ayam', 1)
-    else
-        RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
-    end
-end)
-
-RegisterNetEvent('rnr_chicken:Pack')
-AddEventHandler('rnr_chicken:Pack', function()
-    -- math.randomseed(os.time())
-	-- local xPlayer = ESX.GetPlayerFromId(source)
-	-- local luck = math.random(1, 100)
-	-- local grade = 0
-
-    if RNRFunctions.CanCarryItem('paketayam', 1) then
-		RNRFunctions.AddItem('paketayam', 1)
-        RNRFunctions.Removeitem('ayampotong', 2)
-    else
-        RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
-    end
+lib.callback.register('rnr_jobs:server:item_remove', function (source, data)
+    local src = source
+    if not data then return end
+    RNRFunctions.Removeitem(src, data.item, data.amount)
 end)

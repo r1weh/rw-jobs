@@ -103,8 +103,15 @@ AddEventHandler("rnr_chicken:catch", function()
                 }) then 
                     ClearPedTasksImmediately(PlayerPedId())
                     isButchering = false
-                    local rnr = TriggerServerEvent
-                    rnr('rnr_chicken:Catch', 'ayam', 1)
+                    for k, v in pairs(Config.Items['TakeChicken'].Take) do
+                        lib.callback.await('rnr_jobs:server:item_add', false, {
+                            item = v.item,
+                            amount = v.amount
+                        })
+                        if Config.Debug then
+                            print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil diambil')
+                        end
+                    end
                     Wait(150)
                     SetEntityAsMissionEntity(closestAnimal, true, true)
                     SetEntityAsNoLongerNeeded(closestAnimal)
@@ -210,7 +217,7 @@ RegisterNetEvent('rnr_chicken:Process2', function()
 end)
 
 function potongAyam()
-    for k, v in pairs(Config.Items['PotongAyam'].butuh) do
+    for k, v in pairs(Config.Items['CutChicken'].Needed) do
         local a = ox_inventory:Search('count', v.item)
         if a < v.amount then
             RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
@@ -221,8 +228,8 @@ function potongAyam()
 
     Wait(200)
     local minigame = false
-    if Config.Lokasi['PotongAyam'].minigame then
-        minigame = exports.ox_lib:skillCheck(Config.Lokasi['PotongAyam'].minigame)
+    if Config.Lokasi['CutChicken'].minigame then
+        minigame = exports.ox_lib:skillCheck(Config.Lokasi['CutChicken'].minigame)
     else
         minigame = true
     end
@@ -246,8 +253,8 @@ function potongAyam()
             clip = 'coke_cut_v1_coccutter'
         }
     }) then
-        for k, v in pairs(Config.Items['PotongAyam'].butuh) do
-            lib.callback.await('item:remove', false, {
+        for k, v in pairs(Config.Items['CutChicken'].Needed) do
+            lib.callback.await('rnr_jobs:server:item_remove', false, {
                 item = v.item,
                 amount = v.amount
             })
@@ -255,8 +262,8 @@ function potongAyam()
                 print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil diambil')
             end
         end
-        for k, v in pairs(Config.Items['PotongAyam'].dapet) do
-            lib.callback.await('item:add', false, {
+        for k, v in pairs(Config.Items['CutChicken'].Take) do
+            lib.callback.await('rnr_jobs:server:item_add', false, {
                 item = v.item,
                 amount = v.amount
             })
@@ -276,7 +283,7 @@ AddEventHandler('rnr_chicken:Pack', function(rnr_heading)
 end)
 
 function packAyam(heading)
-    for k, v in pairs(Config.Items['PackingAyam'].butuh) do
+    for k, v in pairs(Config.Items['ChickenPacking'].Needed) do
         local a = ox_inventory:Search('count', v.item)
         if a < v.amount then
             RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
@@ -286,8 +293,8 @@ function packAyam(heading)
     end
 
     local minigame = false
-    if Config.Lokasi['PackingAyam'].minigame then
-        minigame = exports.ox_lib:skillCheck(Config.Lokasi['PotongAyam'].minigame)
+    if Config.Lokasi['ChickenPacking'].minigame then
+        minigame = exports.ox_lib:skillCheck(Config.Lokasi['CutChicken'].minigame)
     else
         minigame = true
     end
@@ -315,8 +322,8 @@ function packAyam(heading)
             clip = 'grab'
         }
     }) then
-        for k, v in pairs(Config.Items['PackingAyam'].butuh) do
-            lib.callback.await('item:remove', false, {
+        for k, v in pairs(Config.Items['ChickenPacking'].Needed) do
+            lib.callback.await('rnr_jobs:server:item_remove', false, {
                 item = v.item,
                 amount = v.amount
             })
@@ -324,8 +331,8 @@ function packAyam(heading)
                 print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil diambil')
             end
         end
-        for k, v in pairs(Config.Items['PackingAyam'].dapet) do
-            lib.callback.await('item:add', false, {
+        for k, v in pairs(Config.Items['ChickenPacking'].Take) do
+            lib.callback.await('rnr_jobs:server:item_add', false, {
                 item = v.item,
                 amount = v.amount
             })
@@ -340,55 +347,3 @@ function packAyam(heading)
         DeleteEntity(boxProp)
     end
 end
-
-PackChicken = function()
-    for k, v in pairs(Config.Items['PotongAyam'].butuh) do
-        local a = ox_inventory:Search('count', v.item)
-        if a < v.amount then
-            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
-            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['required']..'%s', v.amount), "info")
-            return
-        end
-    end
-    local PedCoords = GetEntityCoords(PlayerPedId())
-    local dict = 'anim@heists@ornate_bank@grab_cash_heels'
-
-    RequestAnimDict(dict)
-    while not HasAnimDictLoaded(dict) do
-        Wait(0)
-    end
-
-    TaskPlayAnim(PlayerPedId(), "anim@heists@ornate_bank@grab_cash_heels", "grab", 8.0, -8.0, -1, 1, 0, false, false, false)
-
-    local meat = CreateObject('prop_cs_steak', PedCoords.x, PedCoords.y, PedCoords.z, true, true, true)
-    AttachEntityToEntity(meat, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 0x49D9), 0.15, 0.0, 0.01, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-
-    local carton = CreateObject('prop_cs_clothes_box', PedCoords.x, PedCoords.y, PedCoords.z, true, true, true)
-    AttachEntityToEntity(carton, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.13, 0.0, -0.16, 250.0, -30.0, 0.0, false, false, false, false, 2, true)
-
-    SetEntityHeading(PlayerPedId(), 40.2)
-
-    lib.progressBar({
-        duration = 15000,
-        label = 'Packing Chicken',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = true,
-            car = true,
-            combat = true
-        },
-    }, function(cancel)
-        if not cancel then
-            ClearPedTasks(PlayerPedId())
-            DeleteEntity(carton)
-            DeleteEntity(meat)
-            TriggerServerEvent('rnr_chicken:Pack')
-        else
-            ClearPedTasks(PlayerPedId())
-            DeleteEntity(carton)
-            DeleteEntity(meat)
-        end
-    end)
-end
-

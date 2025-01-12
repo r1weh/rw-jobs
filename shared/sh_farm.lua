@@ -125,22 +125,39 @@ Config.PropFarm = {
 }
 
 Config.VehicleSpawnFarm = {
-	Cabe = 'tractor2', -- Code Spawn VehicleSpawnFarm
-	Coklat = 'tractor2', -- Code Spawn VehicleSpawnFarm
-	Garam = 'tractor2',	-- Code Spawn VehicleSpawnFarm
-	Kopi = 'tractor2',	-- Code Spawn VehicleSpawnFarm
-	Padi = 'tractor2',	-- Code Spawn VehicleSpawnFarm
-	Tebu = 'tractor2',	-- Code Spawn VehicleSpawnFarm
-	Teh = 'tractor2',	-- Code Spawn VehicleSpawnFarm
-	CoordsKopi = { x = -1140.39, y = 2671.08, z = 18.22}, -- Coords VehicleSpawnFarm
-	CoordsPadi = { x = 428.14, y = 6476.53, z = 28.32},	-- Coords VehicleSpawnFarm
-	CoordsTebu = { x = 437.73, y = 6456.33, z = 28.28},	-- Coords VehicleSpawnFarm
-	CoordsGaram = { x = 421.65, y = 6468.73, z = 28.35},	-- Coords VehicleSpawnFarm
-	CoordsCoklat = { x = -1149.95, y = 2673.13, z = 18.22},	-- Coords VehicleSpawnFarm
-	CoordsCabe = { x = 426.31, y = 6463.42, z = 28.78},	-- Coords VehicleSpawnFarm
-	CoordsTeh = { x = -1146.27, y = 2664.13, z = 18.21},	-- Coords VehicleSpawnFarm
-}
-
-Config.Item = {
-	
+	['Cabe'] = {
+		Codespawn = 'tractor2', -- Code Spawn VehicleSpawnFarm
+		CoordsCabe = { x = 426.31, y = 6463.42, z = 28.78},	-- Coords VehicleSpawnFarm
+		Heading = 319.98
+	},
+	['Coklat'] = {
+		Codespawn = 'tractor2', -- Code Spawn VehicleSpawnFarm
+		CoordsCoklat = { x = -1149.95, y = 2673.13, z = 18.22},	-- Coords VehicleSpawnFarm
+		Heading = 18.22
+	},
+	['Garam'] = {
+		Codespawn = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+		CoordsGaram = { x = 421.65, y = 6468.73, z = 28.35}, -- Coords VehicleSpawnFarm
+		Heading = 319.73
+	},
+	['Kopi'] = {
+		Codespawn = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+		CoordsKopi = { x = -1140.39, y = 2671.08, z = 18.22}, -- Coords VehicleSpawnFarm
+		Heading = 221.13
+	},
+	['Padi'] = {
+		Codespawn = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+		CoordsPadi = { x = 428.14, y = 6476.53, z = 28.32},	-- Coords VehicleSpawnFarm
+		Heading = 138.74
+	},
+	['Tebu'] = {
+		Codespawn = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+		CoordsTebu = { x = 437.73, y = 6456.33, z = 28.28},	-- Coords VehicleSpawnFarm
+		Heading = 326.37
+	},
+	['Teh'] = {
+		Codespawn = 'tractor2',	-- Code Spawn VehicleSpawnFarm
+		CoordsTeh = { x = -1146.27, y = 2664.13, z = 18.21},	-- Coords VehicleSpawnFarm
+		Heading = 221.13
+	}
 }

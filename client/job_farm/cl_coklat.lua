@@ -39,11 +39,13 @@ Citizen.CreateThread(function()
                         end
                     end)
                     Citizen.Wait(500)
-                    RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Coklat,Config.VehicleSpawnFarm.CoordsCoklat, 18.22, function(callback_vehicle)
+                    RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm['Coklat'].Codespawn ,Config.VehicleSpawnFarm['Coklat'].CoordsCabe, Config.VehicleSpawnFarm['Coklat'].Heading, function(callback_vehicle)
 						onDutyCoklat = 1
 						TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 					end)
                 end
+			else
+				RNRFunctions.hidedraw()
             end
         end
 		if letSleep then 

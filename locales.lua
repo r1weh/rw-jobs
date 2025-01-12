@@ -4,6 +4,7 @@ Config.Locales = {
         ['chicken_not_dead'] = 'This chicken is not dead',
         ['not_item'] = 'Kamu Tidak Mempunyai item : ',
         ['required'] = 'Minimal yang dibutuhkan : ',
+        ['cancel_proggress'] = 'Kamu Cancel Proggress'
     },
     Alerts = {
         ['cancel'] = 'Cancelled',

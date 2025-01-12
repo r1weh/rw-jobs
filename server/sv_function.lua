@@ -41,7 +41,7 @@ RNRFunctions.AddItem = function(source, item, amount)
         local xPlayer = Framework.GetPlayerFromId(source)
 		xPlayer.addInventoryItem(item, amount)
     else
-        print('Error: Sistem inventaris tidak valid yang ditentukan dalam Config.Inventory!')
+        print('Error: Invalid inventory system specified in Config.Inventory!')
     end
 end
 
@@ -55,7 +55,7 @@ RNRFunctions.Removeitem = function(source, item, amount)
         local xPlayer = Framework.GetPlayerFromId(source)
 		xPlayer.removeInventoryItem(item, amount)
     else
-        print('Error: Sistem inventaris tidak valid yang ditentukan dalam Config.Inventory!')
+        print('Error: Invalid inventory system specified in Config.Inventory!')
     end
 end
 

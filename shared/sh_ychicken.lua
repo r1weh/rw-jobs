@@ -1,32 +1,32 @@
 Config.ChickenField = vector3(2375.71, 5054.3, 46.44)
 
 Config.Items = {
-    ['PotongAyam'] = {
-        dapet = {
+    ['CutChicken'] = {
+        Take = {
             {item = 'ayampotong', amount = 2},
             {item = 'buluayam', amount = 1}
         },
-        butuh = {
+        Needed = {
             {item = 'ayam', amount = 2}
         }
     },
-    ['PackingAyam'] = {
-        dapet = {
+    ['ChickenPacking'] = {
+        Take = {
             {item = 'paketayam', amount = 5}
         },
-        butuh = {
+        Needed = {
             {item = 'ayampotong', amount = 5}
         }
     },
-    ['PengambilanAyam'] = {
-        dapet = {
-            {item = 'ayam', amount = 1}
+    ['TakeChicken'] = {
+        Take = {
+            {item = 'chicken', amount = math.random(1, 3)}
         }
     }
 }
 
 Config.Lokasi = {
-    ['PotongAyam'] = {
+    ['CutChicken'] = {
         minigame = {'easy'}, -- jika tidak ingin menggunakan minigame set value ke false
         zones = {
             {
@@ -43,7 +43,7 @@ Config.Lokasi = {
             }
         }
     },
-    ['PackingAyam'] = {
+    ['ChickenPacking'] = {
         minigame = {'easy'}, -- jika tidak ingin menggunakan minigame set value ke false
         zones = {
             {

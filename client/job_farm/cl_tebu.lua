@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
         if GetDistanceBetweenCoords(coords, 437.73, 6456.33, 28.28, true) < 3 then
 			letSleep = false
 			DrawMarker(39, 437.73, 6456.33, 28.28, 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.5, 1.5, 1.5, 102, 204, 102, 100, false, true, 2, false, false, false, false)
-			RNRFunctions.ShowHelpNotification('E - Mengambil Traktor (Tebu)')
+			RNRFunctions.drawtext('E - Mengambil Traktor (Tebu)')
 			if IsControlJustReleased(0, 38) and onDutyTebu == 0 then 
 				RNRFunctions.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 					if skin.sex == 0 then
@@ -35,11 +35,13 @@ Citizen.CreateThread(function()
 					end
 				end)
 				Citizen.Wait(500)
-				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm.Cabe, Config.VehicleSpawnFarm.CoordsCabe, 326.37, function(callback_vehicle)
+				RNRFunctions.SpawnVehicle(Config.VehicleSpawnFarm['Tebu'].Codespawn ,Config.VehicleSpawnFarm['Tebu'].CoordsCabe, Config.VehicleSpawnFarm['Tebu'].Heading, function(callback_vehicle)
 					onDutyTebu = 1
 					TaskWarpPedIntoVehicle(GetPlayerPed(-1), callback_vehicle, -1)
 				end)
 			end
+		else
+			RNRFunctions.hidedraw()
         end
 		if letSleep then 
 			Citizen.Wait(500)
