@@ -10,7 +10,7 @@ Config.PedList = {
     --     Icon = 'fas fa-user',
     --     Label = 'Talk to Hipster'
     -- },
-    
+
 	-- Penjual Pakaian
 	{
 		Model = `a_m_m_hasjew_01`, -- Model name as a hash.
@@ -67,10 +67,10 @@ Config.PedList = {
 	},
 }
 
-Config.Saleayam = {
+Config.SaleItem = {
     itemsale = {
         ["paketayam"] = {
             ["Price"] = 900
-        },
+        }
     },
 }
