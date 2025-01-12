@@ -73,12 +73,29 @@ Config.PedList = {
 }
 
 Config.SaleItem = {
-    itemsale = {
+    itemchicken = {
         ["paketayam"] = {
             ["Price"] = 900
-        },
-        ["paketganja"] = {
-            ["Price"] = 1200
         }
     },
+    itemcabe = {
+        ["cabe"] = {
+            ["Price"] = 900
+        },
+    },
+    itemgaram = {
+        ["garam"] = {
+            ["Price"] = 900
+        },
+    },
+    itempadi = {
+        ["padi"] = {
+            ["Price"] = 900
+        },
+    },
+    itemkopi = {
+        ["kopi"] = {
+            ["Price"] = 900
+        },
+    }
 }

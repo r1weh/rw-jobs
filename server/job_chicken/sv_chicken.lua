@@ -1,11 +1,9 @@
-local ox_inventory = exports.ox_inventory
-
 RegisterNetEvent('rnr_chicken:Catch')
 AddEventHandler('rnr_chicken:Catch', function(item, count)
     if RNRFunctions.CanCarryItem(source, item, count) then
         RNRFunctions.AddItem(source, item, count)
     else
-        RNRFunctions.Notify('Inventory Full', 'error')
+        RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
     end
 end)
 
@@ -17,7 +15,7 @@ AddEventHandler('rnr_chicken:Process', function()
         RNRFunctions.AddItem('buluayam', 2)
         RNRFunctions.Removeitem('ayam', 1)
     else
-        RNRFunctions.Notify('Inventory Full', 'error')
+        RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
     end
 end)
 
@@ -32,6 +30,6 @@ AddEventHandler('rnr_chicken:Pack', function()
 		RNRFunctions.AddItem('paketayam', 1)
         RNRFunctions.Removeitem('ayampotong', 2)
     else
-        RNRFunctions.Notify('Inventory Full', 'error')
+        RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], 'error')
     end
 end)

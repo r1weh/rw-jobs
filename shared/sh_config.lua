@@ -15,5 +15,3 @@ Config.Blips = {
     {title="Area Tambang Batu", colour=5, id=318, x = 2935.9653320313, y = 2796.3686523438, z = 40.767963409424},
     {title="Pabrik Kayu", colour=4, id=237, x = -499.86, y = 5459.9,  z = 80.13},
 }
-
-lib.locale()

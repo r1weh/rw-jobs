@@ -121,7 +121,7 @@ AddEventHandler("rnr_chicken:catch", function()
                  end
             end
         else
-            RNRFunctions.ShowHelpNotification("This chicken is not dead", "error")
+            RNRFunctions.ShowHelpNotification(Config.Locales.Notify['chicken_not_dead'], "error")
         end
     else
         if Config.Debug then
@@ -213,8 +213,8 @@ function potongAyam()
     for k, v in pairs(Config.Items['PotongAyam'].butuh) do
         local a = ox_inventory:Search('count', v.item)
         if a < v.amount then
-            RNRFunctions.ShowHelpNotification('Kamu kekurangan/tidak punya : '..ox_inventory:Items()[v.item].label, "info")
-            RNRFunctions.ShowHelpNotification('Minimal Proses '..v.amount, "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['required']..'%s', v.amount), "info")
             return
         end
     end
@@ -279,8 +279,8 @@ function packAyam(heading)
     for k, v in pairs(Config.Items['PackingAyam'].butuh) do
         local a = ox_inventory:Search('count', v.item)
         if a < v.amount then
-            RNRFunctions.ShowHelpNotification('Kamu kekurangan/tidak punya : '..ox_inventory:Items()[v.item].label, "info")
-            RNRFunctions.ShowHelpNotification('Minimal Proses '..v.amount, "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['required']..'%s', v.amount), "info")
             return
         end
     end
@@ -345,8 +345,8 @@ PackChicken = function()
     for k, v in pairs(Config.Items['PotongAyam'].butuh) do
         local a = ox_inventory:Search('count', v.item)
         if a < v.amount then
-            RNRFunctions.ShowHelpNotification('Kamu kekurangan/tidak punya : '..ox_inventory:Items()[v.item].label, "info")
-            RNRFunctions.ShowHelpNotification('Minimal Proses '..v.amount, "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['not_item']..'%s (x%d)', ox_inventory:Items()[v.item].label), "info")
+            RNRFunctions.ShowHelpNotification(string.format(Config.Locales.Notify['required']..'%s', v.amount), "info")
             return
         end
     end

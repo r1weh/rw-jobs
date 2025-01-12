@@ -5,7 +5,7 @@ AddEventHandler('rw:pickedUpCannabis', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -16,7 +16,7 @@ AddEventHandler('rw:pickedUpBatu', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -27,7 +27,7 @@ AddEventHandler('rw:pickedUpCabe', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -38,7 +38,7 @@ AddEventHandler('rw:pickedUpCoklat', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -49,7 +49,7 @@ AddEventHandler('rw:pickedUpGaram', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -60,7 +60,7 @@ AddEventHandler('rw:pickedUpKopi', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -71,7 +71,7 @@ AddEventHandler('rw:pickedUpPadi', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -82,7 +82,7 @@ AddEventHandler('rw:pickedUpTebu', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
@@ -93,7 +93,7 @@ AddEventHandler('rw:pickedUpTeh', function()
 	if RNRFunctions.CanCarryItem(source, xItem, 1) then
 		RNRFunctions.AddItem(source, xItem, 1)
 	else
-		RNRFunctions.Notify("Tas Kamu Penuh Maszeh", "error")
+		RNRFunctions.Notify(Config.Locales.Notify['inventory_full'], "error")
 	end
 end)
 
