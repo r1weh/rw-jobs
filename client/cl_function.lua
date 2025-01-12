@@ -177,12 +177,15 @@ RNRFunctions.hidedraw = function()
     lib.hideTextUI()
 end
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(500)
-        for k, v in pairs(Config.PedList) do
-            local PlayerCoords = GetEntityCoords(cache.ped)
-            local Distance = #(PlayerCoords - v.Coords.xyz)
+local function initsale()
+    local lastCheckTime = GetGameTimer()
+
+    for k, v in pairs(Config.PedList) do
+        local PlayerCoords = GetEntityCoords(cache.ped)
+        local Distance = #(PlayerCoords - v.Coords.xyz)
+
+        if GetGameTimer() - lastCheckTime >= 1000 then -- Check every 1 second
+            lastCheckTime = GetGameTimer()
 
             if Distance < Config.DistanceSpawn and not SpawnedPeds[k] then
                 local SpawnedPed = NearPed(v.Model, v.Coords, v.Gender, v.AnimDict, v.AnimName, v.Scenario)
@@ -199,9 +202,8 @@ Citizen.CreateThread(function()
                     print('Create Spawn Model : ', v.Model)
                     print('Create Spawn Coords : ', v.Coords)
                 end
-            end
-
-            if Distance >= Config.DistanceSpawn and SpawnedPeds[k] then
+            elseif Distance >= Config.DistanceSpawn and SpawnedPeds[k] then
+                -- Fade out and delete ped
                 if Config.FadeIn then
                     for i = 255, 0, -51 do
                         Citizen.Wait(50)
@@ -210,13 +212,13 @@ Citizen.CreateThread(function()
                 end
 
                 exports.ox_target:removeEntity(SpawnedPeds[k].SpawnedPed)
-
                 DeletePed(SpawnedPeds[k].SpawnedPed)
                 SpawnedPeds[k] = nil
             end
         end
     end
-end)
+end
+
 
 
 function NearPed(Model, Coords, Gender, AnimDict, AnimName, Scenario)
@@ -267,3 +269,7 @@ function NearPed(Model, Coords, Gender, AnimDict, AnimName, Scenario)
 
 	return SpawnedPed
 end
+
+CreateThread(function ()
+    initsale()
+end)
