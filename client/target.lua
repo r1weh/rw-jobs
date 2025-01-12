@@ -66,6 +66,78 @@ Citizen.CreateThread(function()
                 }
             })
         end
+        for i = 1, #Config.Penjahit['GrabWool'].zones do
+            local temp = Config.Penjahit['GrabWool'].zones[i]
+            ox_target:addBoxZone({
+                name = temp.name,
+                coords = temp.coords,
+                size = temp.size,
+                rotation = temp.rotation,
+                debug = drawZones,
+                onExit = function ()
+                    RNRFunctions.hidedraw()
+                end,
+                onEnter = function ()
+                    RNRFunctions.drawtext('Take Wool', "fa-solid fa-box-open")
+                end,
+                options = {
+                    {
+                        label = 'Take Wool',
+                        icon = "fa-solid fa-box-open",
+                        onSelect = TakeWool(),
+                        distance = 3.5
+                    }
+                }
+            })
+        end
+        for i = 1, #Config.Penjahit['GrabCloth'].zones do
+            local temp = Config.Penjahit['GrabCloth'].zones[i]
+            ox_target:addBoxZone({
+                name = temp.name,
+                coords = temp.coords,
+                size = temp.size,
+                rotation = temp.rotation,
+                debug = drawZones,
+                onExit = function ()
+                    RNRFunctions.hidedraw()
+                end,
+                onEnter = function ()
+                    RNRFunctions.drawtext('Proccesing Wool', "fa-solid fa-box-open")
+                end,
+                options = {
+                    {
+                        label = 'Proccesing Wool',
+                        icon = "fa-solid fa-box-open",
+                        onSelect = MakeCloth(),
+                        distance = 3.5
+                    }
+                }
+            })
+        end
+        for i = 1, #Config.Penjahit['MakeClothes'].zones do
+            local temp = Config.Penjahit['MakeClothes'].zones[i]
+            ox_target:addBoxZone({
+                name = temp.name,
+                coords = temp.coords,
+                size = temp.size,
+                rotation = temp.rotation,
+                debug = drawZones,
+                onExit = function ()
+                    RNRFunctions.hidedraw()
+                end,
+                onEnter = function ()
+                    RNRFunctions.drawtext('Make Clothing', "fa-solid fa-box-open")
+                end,
+                options = {
+                    {
+                        label = 'Make Clothing',
+                        icon = "fa-solid fa-box-open",
+                        onSelect = MakeClothes(),
+                        distance = 3.5
+                    }
+                }
+            })
+        end
     elseif Config.Target == "qb-target" then
         local chicken = {
             'a_c_hen',
