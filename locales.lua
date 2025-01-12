@@ -16,7 +16,7 @@ Config.Locales = {
         ['lumber_processed_received'] = ' Piles of wooden panks',
         ['error_sold'] = 'You dont have the items to sell here!',
         ['successfully_sold'] = 'You have sold your items',
-    
+
         ["axe_check"] = 'You already have a axe',
         ["axe_bought"] = 'You have bought a axe from the boss for $70000',
     

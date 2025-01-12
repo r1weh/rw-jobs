@@ -54,54 +54,44 @@ Citizen.CreateThread(function()
 						if canPickUp then
 							pickaxe = CreateObject(GetHashKey('prop_w_me_hatchet'), 0, 0, 0, true, true, true) 
 							AttachEntityToEntity(pickaxe, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 57005), 0.1, -0.02, -0.02, -50.0, 0.00, 0.0, true, true, false, true, 1, true)
-							TriggerEvent("mythic_progbar:client:progress", {
-								name = "unique_action_name",
+							if lib.progressBar({
 								duration = 10000,
-								label = "Memotong Kayu",
-								useWhileDead = true,
-								canCancel = false,
-								controlDisables = {
-									disableMovement = true,
-									disableCarMovement = true,
-									disableMouse = false,
-									disableCombat = true,
+								label = 'Memotong Kayu',
+								useWhileDead = false,
+								canCancel = true,
+								disable = {
+									car = true,
 								},
-								animation = {
-									animDict = "melee@large_wpn@streamed_core",
-									anim = "ground_attack_90",
-									flags = 49,
+								anim = {
+									dict = "melee@large_wpn@streamed_core",
+									clip = "ground_attack_90"
 								},
-							}, function(status)
-								if not status then
-									-- Do Something If Event Wasn't Cancelled
-								end
-							end)
-
-							Citizen.Wait(10000)
-		
-							DeleteObject(nearbyObject)
-							DeleteObject(pickaxe)
-		
-							table.remove(weedPlants, nearbyID)
-							spawnedWeeds = spawnedWeeds - 1
-		
-							TriggerServerEvent('rw:pickedUpCannabis')
+								prop = {
+									model = `prop_ld_flow_bottle`,
+									pos = vec3(0.03, 0.03, 0.02),
+									rot = vec3(0.0, 0.0, -1.5)
+								},
+							}) then 
+								DeleteObject(nearbyObject)
+								DeleteObject(pickaxe)
+								table.remove(weedPlants, nearbyID)
+								spawnedWeeds = spawnedWeeds - 1
+								TriggerServerEvent('rw:pickedUpCannabis')
+							 else 
+								RNRFunctions.ShowHelpNotification(Config.Locales.Notify['cancel_proggress'], 'error')
+							end
 						else
-							TriggerEvent("rri-notify:Icon","Melebihi Batas","top-right",2500,"blue-10","white",true,"")
+							RNRFunctions.ShowHelpNotification(Config.Locales.Notify['inventory_full'], "error")
 						end
-
 						isPickingUp = false
-
 					end, 'wood')
 				end
 			end
-
 		else
+			RNRFunctions.hidedraw()
 			Citizen.Wait(500)
 		end
-
 	end
-
 end)
 
 function SpawnWeedPlants()
