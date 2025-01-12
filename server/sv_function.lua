@@ -23,7 +23,7 @@ RNRFunctions.GetPlayerFromId = function(source)
 	end
 end
 
-RNRFunctions.Notify = function(msg, info)
+RNRFunctions.Notify = function(source, msg, info)
 	if Config.Framework == 'esx' then
         TriggerClientEvent('esx:showNotification', source, msg)
     elseif Config.Framework == 'qb' then

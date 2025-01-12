@@ -76,6 +76,9 @@ Config.SaleItem = {
     itemsale = {
         ["paketayam"] = {
             ["Price"] = 900
+        },
+        ["paketganja"] = {
+            ["Price"] = 1200
         }
     },
 }
