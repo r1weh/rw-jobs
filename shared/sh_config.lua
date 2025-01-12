@@ -3,8 +3,10 @@ Config, RNR = {}, {}
 -- # Framework --
 Config.Framework = 'qb' -- ESX | QB > Opsi Framework ur Use!
 Config.Inventory = 'ox_inventory' -- ox_inventory | qb-inventory | esx-default > Opsi Inventory Files!
-
+Config.Target = 'ox_target'
+Config.NameResourceCore = 'rnr_core' -- es_extended | qb-core > Opsi Resource Core Files!
 -- # Framework --
+Config.Debug = false -- Print Debug
 
 Config.Blips = {
 	{title="Petani",colour=2, id=140,x = 428.76,  y = 6468.14, z = 28.78},

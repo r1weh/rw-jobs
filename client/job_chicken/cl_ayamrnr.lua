@@ -26,8 +26,8 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent("ttyy_butcher:catch")
-AddEventHandler("ttyy_butcher:catch", function()
+RegisterNetEvent("rnr_chicken:catch")
+AddEventHandler("rnr_chicken:catch", function()
     local dead = false
     local plyCoords = GetEntityCoords(PlayerPedId())
 
@@ -101,7 +101,7 @@ AddEventHandler("ttyy_butcher:catch", function()
                     ClearPedTasksImmediately(PlayerPedId())
                     isButchering = false
                     local rnr = TriggerServerEvent
-                    rnr('ttyy_butcher:Catch', 'ayam', 1)
+                    rnr('rnr_chicken:Catch', 'ayam', 1)
                     Wait(150)
                     SetEntityAsMissionEntity(closestAnimal, true, true)
                     SetEntityAsNoLongerNeeded(closestAnimal)
@@ -204,56 +204,12 @@ function GetCoordZChicken(x, y)
 	return 53.85
 end
 
---target system
-local chicken = {
-	'a_c_hen',
-}
-
-exports.ox_target:addModel(chicken, {
-    {
-		name = 'ayam',
-		event = "ttyy_butcher:catch",
-		icon = "far fas fa-laptop-medical",
-		label = "Take",
-    }
-})
-
-exports.ox_target:addBoxZone({
-    coords = vec3(-95.0819, 6207.5879, 31.0259),
-    size = vec3(2, 2, 2),
-    rotation = 45,
-    --debug = drawZones,
-    options = {
-        {
-            event = "ttyy_butcher:Process",
-			icon = "fa-solid fa-drumstick-bite",
-			label = "Cut Chicken",
-			-- item = 'WEAPON_KNIFE',
-        }
-    }
-})
-
-exports.ox_target:addBoxZone({
-    coords = vec3(-99.9406, 6201.8672, 31.0685),
-    size = vec3(2, 2, 2),
-    rotation = 45,
-    --debug = drawZones,
-    options = {
-        {
-			event = "ttyy_butcher:Process2",
-			icon = "fa-solid fa-drumstick-bite",
-			label = "Cut Chicken",
-			-- item = 'WEAPON_KNIFE',
-        }
-    }
-})
-
 -- processing handler
-RegisterNetEvent('ttyy_butcher:Process', function()
+RegisterNetEvent('rnr_chicken:Process', function()
 	potongAyam()
 end)
 
-RegisterNetEvent('ttyy_butcher:Process2', function()
+RegisterNetEvent('rnr_chicken:Process2', function()
 	potongAyam()
 end)
 
@@ -299,12 +255,18 @@ function potongAyam()
                 item = v.item,
                 amount = v.amount
             })
+            if Config.Debug then
+                print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil diambil')
+            end
         end
         for k, v in pairs(Config.Items['PotongAyam'].dapet) do
             lib.callback.await('item:add', false, {
                 item = v.item,
                 amount = v.amount
             })
+            if Config.Debug then
+                print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil ditambah')
+            end
         end
         DeleteEntity(propKnife)
     else
@@ -312,29 +274,8 @@ function potongAyam()
     end
 end
 
-
-
--- packing handler
-exports['qtarget']:AddBoxZone("ttyy_butcher:Pack", vector3(-103.8782, 6208.5313, 30.9089), 12.0, 1.70, {
-	name="ttyy_butcher:Pack",
-	heading=136.2,
-	--debugPoly=true,
-	minZ=29.67834,
-	maxZ=31.67834,
-	}, {
-	options = {
-		{
-			event = "ttyy_butcher:Pack",
-			icon = "fas fa-steak",
-			label = "Pack Chicken",
-			--job = "slaughterer",
-		},
-	},
-	distance = 3.5
-})
-
-RegisterNetEvent('ttyy_butcher:Pack')
-AddEventHandler('ttyy_butcher:Pack', function()
+RegisterNetEvent('rnr_chicken:Pack')
+AddEventHandler('rnr_chicken:Pack', function()
 	packAyam(43.0828)
 end)
 
@@ -363,7 +304,6 @@ function packAyam(heading)
 
     local boxProp = CreateObject('prop_cs_clothes_box',PedCoords.x, PedCoords.y,PedCoords.z, true, true, true)
     AttachEntityToEntity(boxProp, cache.ped, GetPedBoneIndex(cache.ped, 57005), 0.13, 0.0, -0.16, 250.0, -30.0, 0.0, false, false, false, false, 2, true)
-
     if lib.progressBar({
         duration = 7000,
         label = 'Mengemas Ayam',
@@ -384,12 +324,18 @@ function packAyam(heading)
                 item = v.item,
                 amount = v.amount
             })
+            if Config.Debug then
+                print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil diambil')
+            end
         end
         for k, v in pairs(Config.Items['PackingAyam'].dapet) do
             lib.callback.await('item:add', false, {
                 item = v.item,
                 amount = v.amount
             })
+            if Config.Debug then
+                print('Ayam Potong: '..v.item..' x '..v.amount..' berhasil ditambah')
+            end
         end
         DeleteEntity(meatProp)
         DeleteEntity(boxProp)
@@ -441,7 +387,7 @@ PackChicken = function()
             ClearPedTasks(PlayerPedId())
             DeleteEntity(carton)
             DeleteEntity(meat)
-            TriggerServerEvent('ttyy_butcher:Pack')
+            TriggerServerEvent('rnr_chicken:Pack')
         else
             ClearPedTasks(PlayerPedId())
             DeleteEntity(carton)

@@ -2,9 +2,9 @@ Framework = nil
 RNRFunctions = {}
 
 if Config.Framework == 'esx' then
-	Framework = exports["es_extended"]:getSharedObject()
+	Framework = exports[Config.NameResourceCore]:getSharedObject()
 elseif Config.Framework == 'qb' then
-	Framework = exports["qb-core"]:GetCoreObject()
+	Framework = exports[Config.NameResourceCore]:GetCoreObject()
 end
 
 RNRFunctions.RegisterServerCallback = function(name, cb, ...)

@@ -17,7 +17,7 @@ Keys = {
 Citizen.CreateThread(function()
     if Config.Framework == "esx" then
         while Framework == nil do
-            Framework = exports["es_extended"]:getSharedObject()
+            Framework = exports[Config.NameResourceCore]:getSharedObject()
             Citizen.Wait(0)
         end
 
@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
 
     elseif Config.Framework == "qb" then
         while Framework == nil do
-            Framework = exports["qb-core"]:GetCoreObject()
+            Framework = exports[Config.NameResourceCore]:GetCoreObject()
             Citizen.Wait(0)
         end
 
