@@ -42,12 +42,12 @@ local function initSapi()
                                         flag = 1
                                     },
                                 }) then
-                                    TriggerServerEvent('nazz:server:perahsapi', k)
+                                    TriggerServerEvent('rnr_jobs:server:perahsapi', k)
                                     TaskWanderInArea(Sapi[k], 2263.12, 4928.45, 40.96, 17.150000000001, 0, 0)
                                     Sapi[Sapi[k]] = true
                                 end
                             else
-                                QBCore.Functions.Notify('Sapi sudah diperah!', "error", 3000)
+                                RNRFunctions.Notify('Sapi sudah diperah!', "error")
                             end
                         end,
                         canInteract = function()
@@ -78,13 +78,13 @@ local function initSapi()
                                         flag = 1
                                     },
                                 }) then
-                                    TriggerServerEvent('nazz:server:kulitisapi', k)
+                                    TriggerServerEvent('rnr_jobs:server:kulitisapi', k)
                                     if Sapi[Sapi[k]] ~= nil then
                                     Sapi[Sapi[k]] = nil
                                     end
                                 end
                             else
-                                QBCore.Functions.Notify('Kamu harus memegang Machete untuk menguliti sapi!', 'warning', 3000)
+                                RNRFunctions.Notify('Kamu harus memegang Machete untuk menguliti sapi!', 'warning')
                             end
                         end,
                         canInteract = function()
@@ -98,7 +98,7 @@ local function initSapi()
     end
 end
 
-RegisterNetEvent('nazz:client:respawnsapi', function(loc)
+RegisterNetEvent('rnr_jobs:client:respawnsapi', function(loc)
     -- Wait(5000)
     local v = GlobalState.Sapi[loc]
     local hash = GetHashKey(v.model)
@@ -131,11 +131,11 @@ RegisterNetEvent('nazz:client:respawnsapi', function(loc)
                             },
                         }) then
                             if Sapi[Sapi[loc]] ~= true then
-                                TriggerServerEvent('nazz:server:perahsapi', loc)
+                                TriggerServerEvent('rnr_jobs:server:perahsapi', loc)
                                 TaskWanderInArea(Sapi[loc], 2263.12, 4928.45, 40.96, 17.150000000001, 0, 0)
                                 Sapi[Sapi[loc]] = true
                             else
-                                QBCore.Functions.Notify('Sapi sudah diperah!', "error", 3000)
+                                RNRFunctions.Notify('Sapi sudah diperah!', "error")
                             end
                         end
                     end,
@@ -164,7 +164,7 @@ RegisterNetEvent('nazz:client:respawnsapi', function(loc)
                                 flag = 1
                             },
                         }) then
-                            TriggerServerEvent('nazz:server:kulitisapi', loc)
+                            TriggerServerEvent('rnr_jobs:server:kulitisapi', loc)
                             if Sapi[Sapi[loc]] ~= nil then
                                 Sapi[Sapi[loc]] = nil
                             end
@@ -180,7 +180,7 @@ RegisterNetEvent('nazz:client:respawnsapi', function(loc)
     end
 end)
 
-RegisterNetEvent('nazz:client:removesapi', function(loc)
+RegisterNetEvent('rnr_jobs:client:removesapi', function(loc)
     if DoesEntityExist(Sapi[loc]) then
         DeleteEntity(Sapi[loc])
     end

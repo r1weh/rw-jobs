@@ -12,13 +12,13 @@ function SapiCooldown(loc)
     Config.Sapi[loc].perah = false
     Config.Sapi[loc].kulit = false
     GlobalState.Sapi = Config.Sapi
-    TriggerClientEvent('nazz:client:respawnsapi', src, loc)
+    TriggerClientEvent('rnr_jobs:client:respawnsapi', src, loc)
 end
 
 function CheckDist(source, player)
     local pcoords = GetEntityCoords(player)
-    local ok 
-    if #(pcoords - vector3(2261.81, 4928.68, 40.99)) < 100.0 then
+    local ok
+    if #(pcoords - Config.CowDist['Area']) < 100.0 then
         return ok
     else
         if Config.Debug then
@@ -27,7 +27,7 @@ function CheckDist(source, player)
     end
 end
 
-RegisterNetEvent('nazz:server:perahsapi', function(loc)
+RegisterNetEvent('rnr_jobs:server:perahsapi', function(loc)
     local src = source
 	local playerPed = GetPlayerPed(src)
 	if CheckDist(src, playerPed) then return end
@@ -49,7 +49,7 @@ RegisterNetEvent('nazz:server:perahsapi', function(loc)
     end
 end)
 
-RegisterNetEvent('nazz:server:kulitisapi', function(loc)
+RegisterNetEvent('rnr_jobs:server:kulitisapi', function(loc)
     local src = source
 	local playerPed = GetPlayerPed(src)
 	if CheckDist(src, playerPed) then return end

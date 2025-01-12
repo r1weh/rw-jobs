@@ -11,6 +11,10 @@ Config.Sapi = {
     { location = vector3(2266.16, 4930.94, 41.01), heading = 106.27, model = "a_c_cow"}
 }
 
+Config.CowDist = {
+    ['Area'] = vector3(2261.81, 4928.68, 40.99)
+}
+
 Config.Items = {
     ['TakeMilk'] = {
         Used = true, -- Set to true to make items addable  
