@@ -6,6 +6,7 @@ Config.Inventory = 'ox_inventory' -- ox_inventory | qb-inventory | esx-default >
 Config.Target = 'ox_target'
 Config.NameResourceCore = 'qb-core' -- es_extended | qb-core > Opsi Resource Core Files!
 -- # Framework --
+
 Config.Debug = false -- Print Debug
 
 Config.Blips = {
