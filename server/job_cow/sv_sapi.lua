@@ -76,6 +76,8 @@ RegisterNetEvent('nazz:server:kulitisapi', function(loc)
             end
         end
     else
-        --ban
+        if Config.Debug then
+            print("Player has already spawned a sapi at this location")
+        end
     end
 end)
