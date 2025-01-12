@@ -61,23 +61,5 @@ Config.Lokasi = {
                 heading = 226.8433
             },
         }
-    },
-    ['PengambilanAyam'] = {
-        zones = {
-            {
-                name = "Pengambilan Ayam",
-                coords = vec3(2409.33, 5019.12, 46.16),
-                size = vec3(2.5, 3.0, 0.95),
-                rotation = 313.5,
-            }
-        }
     }
-}
-
-Config.Saleayam = {
-    itemsale = {
-        ["paketayam"] = {
-            ["Price"] = 900
-        },
-    },
 }

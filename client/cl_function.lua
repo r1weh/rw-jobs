@@ -13,6 +13,7 @@ Keys = {
 	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
+local SpawnedPeds = {}
 
 Citizen.CreateThread(function()
     if Config.Framework == "esx" then
@@ -159,7 +160,7 @@ RNRFunctions.SpawnVehicle = function(model, coords, heading, cb)
     end
 end
 
-RNRFunctions.drawtext = function ( pesan, icon )
+RNRFunctions.drawtext = function (pesan, icon)
     lib.showTextUI(pesan, {
         position = "left-center",
         icon = icon or '',
@@ -173,4 +174,95 @@ end
 
 RNRFunctions.hidedraw = function()
     lib.hideTextUI()
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(500)
+        for k, v in pairs(Config.PedList) do
+            local PlayerCoords = GetEntityCoords(cache.ped)
+            local Distance = #(PlayerCoords - v.Coords.xyz)
+
+            if Distance < Config.DistanceSpawn and not SpawnedPeds[k] then
+                local SpawnedPed = NearPed(v.Model, v.Coords, v.Gender, v.AnimDict, v.AnimName, v.Scenario)
+                SpawnedPeds[k] = { SpawnedPed = SpawnedPed }
+                exports.ox_target:addEntity(SpawnedPed, {
+                    {
+                        name = 'ped_interact_' .. k,
+                        event = v.Event or 'default:event',
+                        icon = v.Icon or 'fas fa-user',
+                        label = v.Label or 'Interact Ped!',
+                    }
+                })
+                if Config.Debug then
+                    print('Create Spawn Model : ', v.Model)
+                    print('Create Spawn Coords : ', v.Coords)
+                end
+            end
+
+            if Distance >= Config.DistanceSpawn and SpawnedPeds[k] then
+                if Config.FadeIn then
+                    for i = 255, 0, -51 do
+                        Citizen.Wait(50)
+                        SetEntityAlpha(SpawnedPeds[k].SpawnedPed, i, false)
+                    end
+                end
+
+                exports.ox_target:removeEntity(SpawnedPeds[k].SpawnedPed)
+
+                DeletePed(SpawnedPeds[k].SpawnedPed)
+                SpawnedPeds[k] = nil
+            end
+        end
+    end
+end)
+
+
+function NearPed(Model, Coords, Gender, AnimDict, AnimName, Scenario)
+	RequestModel(Model)
+	while not HasModelLoaded(Model) do
+		Citizen.Wait(50)
+	end
+
+	if Config.MinusOne then
+		SpawnedPed = CreatePed(Config.GenderNumbers[Gender], Model, Coords.x, Coords.y, Coords.z - 1.0, Coords.w, false, true)
+	else
+		SpawnedPed = CreatePed(Config.GenderNumbers[Gender], Model, Coords.x, Coords.y, Coords.z, Coords.w, false, true)
+	end
+
+	SetEntityAlpha(SpawnedPed, 0, false)
+
+	if Config.Frozen then
+		FreezeEntityPosition(SpawnedPed, true)
+	end
+
+	if Config.Invincible then
+		SetEntityInvincible(SpawnedPed, true)
+	end
+
+	if Config.Stoic then
+		SetBlockingOfNonTemporaryEvents(SpawnedPed, true)
+	end
+
+	if AnimDict and AnimName then
+		RequestAnimDict(AnimDict)
+		while not HasAnimDictLoaded(AnimDict) do
+			Citizen.Wait(50)
+		end
+
+		TaskPlayAnim(SpawnedPed, AnimDict, AnimName, 8.0, 0, -1, 1, 0, 0, 0)
+	end
+
+    if Scenario then
+        TaskStartScenarioInPlace(SpawnedPed, Scenario, 0, true)
+    end
+
+	if Config.FadeIn then
+		for i = 0, 255, 51 do
+			Citizen.Wait(50)
+			SetEntityAlpha(SpawnedPed, i, false)
+		end
+	end
+
+	return SpawnedPed
 end

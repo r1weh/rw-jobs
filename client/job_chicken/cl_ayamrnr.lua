@@ -275,8 +275,8 @@ function potongAyam()
 end
 
 RegisterNetEvent('rnr_chicken:Pack')
-AddEventHandler('rnr_chicken:Pack', function()
-	packAyam(43.0828)
+AddEventHandler('rnr_chicken:Pack', function(rnr_heading)
+	packAyam(rnr_heading)
 end)
 
 function packAyam(heading)
